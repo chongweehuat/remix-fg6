@@ -13,8 +13,8 @@ import { isPreview } from "~/utils/isPreview";
 import getData from "~/utils/getData";
 import XTag from "./components/XTag";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import {storyData, storyContent, storyStyle} from "./utils/storyData";
-import { FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
 
 const components = {};
 
@@ -46,7 +46,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   //console.log(settings);
   const setting = storyContent(settings,"global");
   const styleGlobal = storyStyle(settings,"global");
-  
   return (
     <html lang="en">
       <head>
@@ -61,10 +60,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
       <XTag styleClass="bg-white" cmsData={styleGlobal.wrapper} cmsDataRef="styleGlobal.wrapper">
-        <Header blok={header} />
+        <Header blok={{header,settings}} />
           {children}
           <ScrollRestoration />
           <Scripts />
+        <Footer blok={{footer}} />    
       </XTag>
       </body>
     </html>
