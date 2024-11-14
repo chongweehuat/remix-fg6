@@ -4,7 +4,7 @@ import { sectionContent } from "../../utils/storyData";
 const hero = ({ blok }) => {
     const contentSection = sectionContent(blok.section);
     const styleSection = blok.styles.styleSection;
-    console.log(contentSection);
+    
     return (
         <XTag 
             tag="section"
