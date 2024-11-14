@@ -1,7 +1,7 @@
 import { FiLinkedin, FiFacebook, FiInstagram, FiYoutube } from 'react-icons/fi';
 import { storyData, storyContent, storyStyle } from "../utils/storyData";
 import reduceArrayByKey from "../utils/reduceArrayByKey";
-import XTag from "./XTag";
+import XTag from "../components/XTag";
 
 const Footer = ({ blok }) => {
     const contentLeft = storyContent(blok.footer, "left");

@@ -8,6 +8,9 @@ const storyData = (story: any) => {
 
 const storyContent = (story: any, tag: string) => {
     const contents = reduceArrayByKey(story.contents, "name");
+    if (!contents[tag]) {
+        return undefined;
+    }
     if (contents[tag].content.length === 0 || !contents[tag].content.some((item: any) => item.hasOwnProperty("name"))) {
         return contents[tag].content; 
     }        
@@ -18,7 +21,7 @@ const storyContent = (story: any, tag: string) => {
 const storyStyle = (story: any, tag: string) => {
     const styles =reduceArrayByKey(story.styles,"name");
     
-    const style=styles[tag].style.reduce((acc:any, item:any) => {
+    const style=styles[tag]?.style.reduce((acc:any, item:any) => {
         const keyValue = item.name;
     
         acc[keyValue] = item.class;
@@ -28,4 +31,22 @@ const storyStyle = (story: any, tag: string) => {
     return style;
 }
 
-export {storyData, storyContent, storyStyle};
+const sectionContent = (section:any) =>{
+    return reduceArrayByKey(section,"name");
+}
+
+const styleMapping: any = {
+    page: "stylePage",
+    section: "styleSection",
+    global: "styleGlobal",
+    default: "styleSection"
+};
+
+const blockStyle = (styleClass: string , styles: JSON) => {
+    
+    const keys = styleClass.includes(".") ? styleClass.split(".") : [styleMapping.default, styleClass];
+
+    return keys.reduce((acc, key) => (acc && acc[key] !== undefined) ? acc[key] : undefined, styles);
+}
+
+export {storyData, storyContent, storyStyle, sectionContent, blockStyle};

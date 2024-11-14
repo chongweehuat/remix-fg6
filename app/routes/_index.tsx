@@ -1,7 +1,1 @@
-
-export default function Index() {
-  return (
-   <></>
-  );
-}
-
+export { default, loader } from "./$.jsx";

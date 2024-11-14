@@ -2,29 +2,32 @@ import {
     StoryblokComponent,
     storyblokEditable
   } from "@storyblok/react";
-
+  import { storyData, storyContent, storyStyle } from "../utils/storyData";
   import XTag from "../components/XTag";
   
-  const Generic = ({ blok, customSectionMap = {} }) => {  
-    // console.log('Generic',blok.content.sections);
+  const Generic = ({ blok, customSectionMap = {} }) => {
+    const styleGlobal = storyStyle(blok.settings, "global"); 
+    const stylePage = storyStyle(blok.data, "page");  
+
     const SectionLink = ({link, children}) =>(
         link?.cached_url ? <a href={link.cached_url} >{children}</a> : <>{children}</>
     );
     return (
-      <XTag cmsData={blok.content.wrapperClass} cmsDataRef="page_wrapperClass">
-        <XTag cmsData={blok.content.containerClass} cmsDataRef="page_containerClass">
-          <XTag cmsData={blok.content.mainClass} cmsDataRef="page_mainClass">
-            {blok.content.sections?.map((section, i) => {
-              //console.log('Generic section',section);
+      <XTag cmsData={stylePage?.wrapper} cmsDataRef="stylePage.wrapper">
+        <XTag cmsData={stylePage?.container} cmsDataRef="stylePage.container">
+          <XTag cmsData={stylePage?.main} cmsDataRef="stylePage.main">
+            {blok.data.contents.map((section, i) => {
+              const sectionLink = storyContent(blok.data,"link");
+              const styleSection = storyStyle(blok.data, section.name); 
               const Component = customSectionMap[section.name]; 
               return Component ? (
-                <Component key={i} blok={{section,settings:blok.settings}} />
+                <Component key={i} blok={{section:section.content,settings:blok.settings, styles:{styleGlobal,stylePage,styleSection}}} />
               ) : (
-                <XTag key={i} cmsData={section.wrapperClass} cmsDataRef="section_wrapperClass">
-                  <XTag cmsData={section.containerClass} cmsDataRef="section_containerClass">
-                    <SectionLink link={section.link} >
-                      {section.elements.map((element, j) =>{
-                          // console.log('Generic element',element); 
+                <XTag key={i} cmsData={styleSection?.wrapper} cmsDataRef="styleSection.wrapper">
+                  <XTag cmsData={styleSection?.container} cmsDataRef="styleSection.container">
+                    <SectionLink link={sectionLink} >
+                      {section.content.map((element, j) =>{
+                          element.styles={styleGlobal,stylePage,styleSection};
                           return <StoryblokComponent key={j} blok={element} />
                       })}
                     </SectionLink>

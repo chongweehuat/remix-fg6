@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
 import { storyData, storyContent, storyStyle } from "../utils/storyData";
-import XTag from "./XTag";
+import XTag from "../components/XTag";
 
 const Header = ({ blok }) => {
     const [openMenu, setOpenMenu] = useState(false);

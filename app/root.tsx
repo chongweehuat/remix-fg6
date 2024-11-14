@@ -12,11 +12,16 @@ import { storyblokInit, apiPlugin, getStoryblokApi  } from "@storyblok/react";
 import { isPreview } from "~/utils/isPreview";
 import getData from "~/utils/getData";
 import XTag from "./components/XTag";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Header from "./pages/Header";
+import Footer from "./pages/Footer";
 import {storyData, storyContent, storyStyle} from "./utils/storyData";
+import text from "./blocks/text";
+import textarea from "./blocks/textarea";
+import asset from "./blocks/asset";
+import link from "./blocks/link";
+import feature from "./blocks/feature";
 
-const components = {};
+const components = {text,textarea,asset,link,feature};
 
 storyblokInit({
   accessToken: "G9TcO5UryiICtXY4WrIoSwtt",

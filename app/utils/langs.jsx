@@ -52,7 +52,7 @@ const getTransLink = (slug, language) => {
   }else{
     transLink = language === "en-gb" ? `/${slug}` : `/${language}/${slug}`;
   }
-  console.log(slug,language,transLink);
+  // console.log(slug,language,transLink);
   return transLink;
 }
 
