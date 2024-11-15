@@ -1,5 +1,7 @@
 import XTag from "../../components/XTag";
-import { sectionContent } from "../../utils/storyData";
+import {
+    StoryblokComponent
+  } from "@storyblok/react";
 
 const features = ({blok}) => {
     
@@ -13,35 +15,15 @@ const features = ({blok}) => {
             cmsData={styleSection.wrapper}
             dataRef="styleSection.wrapper"
         >
-            {blok.section.map((element) => {
+            {blok.section.map((element,j) => {
+                element.styles=blok.styles;
                 return (
                     <XTag
                         styleClass="bg-white p-6 rounded-lg shadow-lg animate-fadeInUp"
                         cmsData={styleSection.container}
                         cmsDataRef="styleSection.container"
                     >
-                        <XTag
-                            styleClass="text-xl font-semibold mb-4"
-                            cmsData={styleSection.element}
-                            cmsDataRef="styleSection.element"
-
-                        >{element.title}</XTag>
-                        <XTag
-                            styleClass="text-gray-700 mb-6"
-                            cmsData={styleSection.item}
-                            cmsDataRef="styleSection.item"
-
-                        >{element.content}</XTag>
-
-                        <XTag
-                            tag="a"
-                            href="https://www.finexusgroup.com/regulatory-solutions/"
-                            styleClass="text-blue-600 font-semibold hover:underline"
-                            cmsData={styleSection.unit}
-                            cmsDataRef="styleSection.unit"
-                        >
-                            {element.linkText} &gt;
-                        </XTag>
+                        <StoryblokComponent key={j} blok={element} />
                     </XTag>
                 )
             }

@@ -32,14 +32,16 @@ export const loader = async ({ params, request }) => {
   
   const settings=await getData('settings',sbLanguage);
   const data = await getData(slug, sbLanguage);
+  
   switch (slug) {
     case 'home':
-      // const newsHighlights = await getData('/news/highlights', language);
-      // data.sections.forEach(item => {
-      //   if (item.name === "highlights") {
-      //     item.newsHighlights = newsHighlights;
-      //   }
-      // });
+      const newsHighlights = await getData('/news/highlights', language);
+      data.contents.forEach(item => {
+        if (item.name === "highlights") {
+          
+          item.content.push({name:"newshighlights",newsHighlights});
+        }
+      });
   }
   return { language, slug, data, settings };
 }

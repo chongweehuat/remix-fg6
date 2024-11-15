@@ -6,6 +6,6 @@ import features from "../pages/homepage/features";
 import callaction from "../pages/homepage/callaction";
 
 const HomePage = ({ blok }) => {
-    return <Generic blok={blok} customSectionMap={{ hero, highlights, aboutus, features, callaction }} />
+    return <Generic blok={blok} customSectionMap={{ hero, highlights, aboutus, callaction }} />
 }
 export default HomePage;

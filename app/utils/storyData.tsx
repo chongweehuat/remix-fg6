@@ -44,6 +44,10 @@ const styleMapping: any = {
 
 const blockStyle = (styleClass: string , styles: JSON) => {
     
+    if (!styleClass) {
+        return undefined;
+    }
+    
     const keys = styleClass.includes(".") ? styleClass.split(".") : [styleMapping.default, styleClass];
 
     return keys.reduce((acc, key) => (acc && acc[key] !== undefined) ? acc[key] : undefined, styles);

@@ -17,11 +17,12 @@ import Footer from "./pages/Footer";
 import {storyData, storyContent, storyStyle} from "./utils/storyData";
 import text from "./blocks/text";
 import textarea from "./blocks/textarea";
+import richtext from "./blocks/richtext";
 import asset from "./blocks/asset";
 import link from "./blocks/link";
 import feature from "./blocks/feature";
 
-const components = {text,textarea,asset,link,feature};
+const components = {text,textarea,richtext,asset,link,feature};
 
 storyblokInit({
   accessToken: "G9TcO5UryiICtXY4WrIoSwtt",

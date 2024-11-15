@@ -1,10 +1,10 @@
 import XTag from "../../components/XTag";
 import { sectionContent } from "../../utils/storyData";
-
+import { StoryblokComponent } from "@storyblok/react";
 const hero = ({ blok }) => {
     const contentSection = sectionContent(blok.section);
     const styleSection = blok.styles.styleSection;
-    
+    contentSection.statement.styles=blok.styles;
     return (
         <XTag 
             tag="section"
@@ -36,7 +36,8 @@ const hero = ({ blok }) => {
                         cmsData={styleSection.statement}
                         cmsDataRef="styleSection.textarea"
                     >
-                        {contentSection.statement.content}
+                        <StoryblokComponent blok={contentSection.statement} />
+                        
                     </XTag>
                 </XTag>
             </XTag>

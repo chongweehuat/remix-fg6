@@ -2,8 +2,15 @@ import XTag from "../components/XTag";
 import { blockStyle } from "../utils/storyData";
 const asset = ({blok}) => {
     const blokClass=blockStyle(blok.class,blok.styles);
+    const linkClass=blockStyle(blok.linkclass,blok.styles);
     const AssetLink = ({blok, children}) =>(
-        blok.link.cached_url ? <a key={blok._uid} href={blok.link.cached_url} >{children}</a> : <>{children}</>
+        blok.link.cached_url ? <XTag 
+        tag="a" 
+        key={blok._uid} 
+        href={blok.link.cached_url}
+        cmsData={linkClass}
+        cmsDataRef={blok.linkclass} 
+        >{children}</XTag> : <>{children}</>
     );
     // console.log('Asset',blok);
     return (
