@@ -25,7 +25,7 @@ import feature from "./blocks/feature";
 const components = {text,textarea,richtext,asset,link,feature};
 
 storyblokInit({
-  accessToken: "G9TcO5UryiICtXY4WrIoSwtt",
+  accessToken: "9pCgOUNA8hs00g1hKG8V9wtt",
   use: [apiPlugin],
   components,
   bridge: isPreview(),
