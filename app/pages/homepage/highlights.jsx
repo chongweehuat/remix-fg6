@@ -1,101 +1,152 @@
 import XTag from "../../components/XTag";
 import { sectionContent } from "../../utils/storyData";
 import { StoryblokComponent } from "@storyblok/react";
-const highlights = ({blok}) => {
+import dateFormatter from "../../utils/dateFormatter";
+
+const highlights = ({ blok }) => {
     const contentSection = sectionContent(blok.section);
     const styleSection = blok.styles.styleSection;
     const items = contentSection.newshighlights.items;
-    // console.log("title",contentSection.title);
+    //console.log(contentSection);
     return (
         <XTag 
             tag="section" 
-            styleClass="max-w-6xl mx-auto px-4 py-16"
+            styleClass="bg-gray-100 py-8"
             cmsData={styleSection.wrapper}
             cmsDataRef="styleSection.wrapper"
         >
-
             <XTag 
-                styleClass="text-center mb-12"
-                cmsData={styleSection.titleWrapper}
-                cmsDataRef="styleSection.titleWrapper"
+                styleClass="container mx-auto px-4"
+                cmsData={styleSection.container}
+                cmsDataRef="styleSection.container"
             >
-                <StoryblokComponent blok={contentSection.title} />
-            </XTag>
+                
+                <XTag styleClass="mb-6" cmsData={styleSection.titleWrapper} cmsDataRef="styleSection.titleWrapper">
+                    <StoryblokComponent blok={contentSection.title} />
+                </XTag>
 
-
-            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-
-                <article class="bg-white rounded-lg shadow-lg overflow-hidden">
-                    <a href="https://www.finexusgroup.com/e-invoicing-feasible-for-msmes/" class="block relative">
-                        <img
-                            src={items[0].image.filename}
-                            alt="The Star MSME Article"
-                            class="w-full h-48 object-cover"
-                        />
-                        <div class="absolute inset-0 bg-black opacity-20"></div>
-                    </a>
-                    <div class="p-6">
-                        <h2 class="text-lg font-semibold mb-2">
-                            <a href="https://www.finexusgroup.com/e-invoicing-feasible-for-msmes/" class="hover:text-blue-600">
-                                {items[0].title}
-                            </a>
-                        </h2>
-                        <p class="text-gray-500 text-sm mb-4">September 3, 2024</p>
-                        <p class="text-gray-700 text-sm mb-4">
-                            {items[0].content.content[0].content[0].text}...
-                        </p>
-                        <a href="https://www.finexusgroup.com/e-invoicing-feasible-for-msmes/" class="text-blue-600 font-semibold hover:underline">
-                            Read more »
+                {/* Responsive Grid */}
+                <XTag 
+                    styleClass="grid grid-cols-1 lg:grid-cols-4 gap-6"
+                    cmsData={styleSection.newsWrapper}
+                    cmsDataRef="styleSection.newsWrapper"
+                >
+                    {/* Left Main Post */}
+                    <XTag 
+                        styleClass="lg:col-span-2 bg-white shadow-md rounded-lg overflow-hidden"
+                        cmsData={styleSection.mainPostWrapper}
+                        cmsDataRef="styleSection.mainPostWrapper"
+                    >
+                        <a href={items[0].link?.cached_url}>
+                            <XTag 
+                                tag="img"
+                                src={items[0].image.filename}
+                                alt={items[0].title}
+                                styleClass="w-full h-64 object-cover"
+                                cmsData={styleSection.mainPostImage}
+                            />
                         </a>
-                    </div>
-                </article>
+                        <XTag styleClass="p-4" cmsData={styleSection.mainPostContainer} cmsDataRef="styleSection.mainPostContainer">
+                            <XTag 
+                                tag="a"
+                                href={items[0].link?.cached_url}
+                                styleClass="text-lg font-bold text-gray-800 hover:text-blue-500"
+                                cmsData={styleSection.titleLink}
+                                cmsDataRef="styleSection.titleLink"
+                            >
+                                {items[0].title}
+                            </XTag>
+                            <XTag tag="p" styleClass="text-sm text-gray-600 mt-2" cmsData={styleSection.date} cmsDataRef="styleSection.date" >
+                                {dateFormatter(items[0].datetime)}
+                            </XTag>
+                            <XTag
+                                tag="p"
+                                styleClass="text-sm text-gray-700 mt-2"
+                                cmsData={styleSection.content}
+                                cmsDataRef="styleSection.content"
+                            >
+                               <StoryblokComponent blok={{component:"richtext",content:items[0].content}} />
+                            </XTag>
+                            
+                            <XTag 
+                                tag="a"
+                                href={items[0].link?.cached_url}
+                                styleClass="text-blue-500 hover:underline mt-2 inline-block"
+                                cmsData={styleSection.linkLabel}
+                                cmsDataRef="styleSection.linkLabel"
+                            >    
+                                {contentSection.linkLabel.content}
+                            </XTag>
+                        </XTag>
+                    </XTag>
 
-                {items.map((item, i) => {
-                    if (i > 0) {
-                        return (
-                            <article key={i} class="bg-white rounded-lg shadow-lg overflow-hidden">
-                                <a href="https://www.finexusgroup.com/manufacturers-edition-finexus-outlines-case-studies-and-20-must-know-irbm-e-invoicing-rules/" class="block relative">
-                                    <img
-                                        src={item.image.filename}
-                                        alt="Manufacturers IRBM"
-                                        class="w-full h-48 object-cover"
-                                    />
-                                    <div class="absolute inset-0 bg-black opacity-20"></div>
-                                </a>
-                                <div class="p-6">
-                                    <h2 class="text-lg font-semibold mb-2">
-                                        <a href="https://www.finexusgroup.com/manufacturers-edition-finexus-outlines-case-studies-and-20-must-know-irbm-e-invoicing-rules/" class="hover:text-blue-600">
-                                        {item.title}
-                                        </a>
-                                    </h2>
-                                    <p class="text-gray-500 text-sm mb-4">September 27, 2024</p>
-                                    <p class="text-gray-700 text-sm mb-4">
-                                    {item.content.content[0].content[0].text}...
-                                    </p>
-                                    <a href="https://www.finexusgroup.com/manufacturers-edition-finexus-outlines-case-studies-and-20-must-know-irbm-e-invoicing-rules/" class="text-blue-600 font-semibold hover:underline">
-                                        Read more »
-                                    </a>
-                                </div>
-                            </article>
-                        )
-                    }
-                })}
+                    {/* Right Grid of Smaller Posts */}
+                    <XTag styleClass="lg:col-span-2 grid grid-cols-1 gap-6" cmsData={styleSection.subPostWrapper} cmsDataRef="styleSection.subPostWrapper">
+                        {items.slice(1).map((item,j) => {
+                            return (
+                                <XTag 
+                                    styleClass="flex bg-white shadow-md rounded-lg overflow-hidden"
+                                    cmsData={styleSection.subPostContainer}
+                                    cmsDataRef="styleSection.subPostContainer"
+                                >
+                                    <XTag 
+                                        tag="a" 
+                                        href="https://www.finexusgroup.com/e-invoicing-feasible-for-msmes/" 
+                                        styleClass="flex-shrink-0"
+                                        cmsData={styleSection.subPostImageLink}
+                                    >
+                                        <XTag 
+                                            tag="img"
+                                            src={item.image.filename}
+                                            alt={item.title}
+                                            styleClass="w-32 h-32 object-cover"
+                                            cmsData={styleSection.subPostImage}
+                                        />
+                                    </XTag>
+                                    <XTag styleClass="p-4 flex flex-col" cmsData={styleSection.subPostMain} cmsDataRef="styleSection.subPostMain" >
+                                        
+                                        <XTag 
+                                            tag="a"
+                                            href={item.link?.cached_url}
+                                            styleClass="text-lg font-bold text-gray-800 hover:text-blue-500"
+                                            cmsData={styleSection.titleLink}
+                                            cmsDataRef="styleSection.titleLink"
+                                        >
+                                            {item.title}
+                                        </XTag>
+                                        
+                                        <XTag tag="p" styleClass="text-sm text-gray-600 mt-2" cmsData={styleSection.date} cmsDataRef="styleSection.date" >
+                                            {dateFormatter(item.datetime)}
+                                        </XTag>
 
-
-
-
-
-
-            </div>
-
-
-            <div class="mt-12 text-center">
-                <a href="https://www.finexusgroup.com/news/" class="inline-flex items-center bg-blue-600 text-white font-semibold px-6 py-2 rounded hover:bg-blue-700 transition">
-                    <span class="mr-2">All News</span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
+                                        <XTag
+                                            tag="p"
+                                            styleClass="text-sm text-gray-700 mt-2 flex-grow"
+                                            cmsData={styleSection.subPostContent}
+                                            cmsDataRef="styleSection.subPostContent"
+                                        >
+                                            <StoryblokComponent blok={{component:"richtext",content:item.content}} />
+                                        </XTag>
+                                        
+                                        <XTag 
+                                            tag="a"
+                                            href={item.link?.cached_url}
+                                            styleClass="text-blue-500 hover:underline mt-2 inline-block"
+                                            cmsData={styleSection.linkLabel}
+                                            cmsDataRef="styleSection.linkLabel"
+                                        >    
+                                            {contentSection.linkLabel.content}
+                                        </XTag>
+                                    </XTag>
+                                </XTag>
+                            )})}
+                        
+                    </XTag>
+                </XTag>
+            </XTag>
         </XTag>
+
+
 
     )
 }
