@@ -1,5 +1,5 @@
-import XTag from "../components/XTag";
-import { blockStyle } from "../utils/storyData";
+import XTag from "../XTag";
+import { blockStyle } from "../../utils/storyData";
 const feature = ({ blok }) => {
     const titleClass=blockStyle(blok.titleclass,blok.styles);
     const contentClass=blockStyle(blok.contentclass,blok.styles);

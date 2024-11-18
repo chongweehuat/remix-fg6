@@ -1,14 +1,26 @@
 import XTag from "../../components/XTag";
 import { sectionContent } from "../../utils/storyData";
+import { StoryblokComponent } from "@storyblok/react";
 const highlights = ({blok}) => {
     const contentSection = sectionContent(blok.section);
-    const items = contentSection.newshighlights.newsHighlights.items;
+    const styleSection = blok.styles.styleSection;
+    const items = contentSection.newshighlights.items;
+    // console.log("title",contentSection.title);
     return (
-        <section class="max-w-6xl mx-auto px-4 py-16">
+        <XTag 
+            tag="section" 
+            styleClass="max-w-6xl mx-auto px-4 py-16"
+            cmsData={styleSection.wrapper}
+            cmsDataRef="styleSection.wrapper"
+        >
 
-            <div class="text-center mb-12">
-                <h3 class="text-3xl font-bold text-gray-800">{contentSection.title.content}</h3>
-            </div>
+            <XTag 
+                styleClass="text-center mb-12"
+                cmsData={styleSection.titleWrapper}
+                cmsDataRef="styleSection.titleWrapper"
+            >
+                <StoryblokComponent blok={contentSection.title} />
+            </XTag>
 
 
             <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
@@ -83,7 +95,7 @@ const highlights = ({blok}) => {
                     <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
-        </section>
+        </XTag>
 
     )
 }

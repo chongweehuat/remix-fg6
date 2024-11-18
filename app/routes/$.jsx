@@ -37,9 +37,10 @@ export const loader = async ({ params, request }) => {
     case 'home':
       const newsHighlights = await getData('/news/highlights', language);
       data.contents.forEach(item => {
+        
         if (item.name === "highlights") {
           
-          item.content.push({name:"newshighlights",newsHighlights});
+          item.content.push({name:"newshighlights",items:newsHighlights.items});
         }
       });
   }

@@ -15,12 +15,12 @@ import XTag from "./components/XTag";
 import Header from "./pages/Header";
 import Footer from "./pages/Footer";
 import {storyData, storyContent, storyStyle} from "./utils/storyData";
-import text from "./blocks/text";
-import textarea from "./blocks/textarea";
-import richtext from "./blocks/richtext";
-import asset from "./blocks/asset";
-import link from "./blocks/link";
-import feature from "./blocks/feature";
+import text from "./components/blocks/text";
+import textarea from "./components/blocks/textarea";
+import richtext from "./components/blocks/richtext";
+import asset from "./components/blocks/asset";
+import link from "./components/blocks/link";
+import feature from "./components/blocks/feature";
 
 const components = {text,textarea,richtext,asset,link,feature};
 

@@ -1,6 +1,6 @@
 import { richTextResolver } from "@storyblok/richtext";
-import XTag from "../components/XTag";
-import { blockStyle } from "../utils/storyData";
+import XTag from "../XTag";
+import { blockStyle } from "../../utils/storyData";
 const richtext = ({blok}) => {
     const {render} = richTextResolver();
     const blokClass=blockStyle(blok.class,blok.styles);

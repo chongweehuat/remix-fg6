@@ -1,5 +1,5 @@
-import XTag from "../components/XTag";
-import { blockStyle } from "../utils/storyData";
+import XTag from "../XTag";
+import { blockStyle } from "../../utils/storyData";
 const link = ({blok, children}) => {
     const linkClass=blockStyle(blok.class,blok.styles);
     

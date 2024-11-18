@@ -1,4 +1,4 @@
-import XTag from "../../components/XTag";
+import XTag from "../XTag";
 import {
     StoryblokComponent
   } from "@storyblok/react";
