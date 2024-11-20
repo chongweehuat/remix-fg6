@@ -4,7 +4,7 @@ import HomePage from "../pages/HomePage";
 import Generic from "../components/Generic";
 import LanguageSelector from "../pages/LanguageSelector";
 import { languages, getCurrentLanguage } from "../utils/langs";
-
+import { useSearchParams } from "@remix-run/react";
 
 export const loader = async ({ params, request }) => {
 
@@ -30,12 +30,12 @@ export const loader = async ({ params, request }) => {
   slug = slug === "/" || slug === "/home" || slug === language ? "home" : slug;
 
   
-  const settings=await getData('settings',sbLanguage);
-  const data = await getData(slug, sbLanguage);
+  const settings=await getData('finexusgroup/settings',sbLanguage);
+  const data = await getData('finexusgroup/'+slug, sbLanguage);
   
   switch (slug) {
     case 'home':
-      const newsHighlights = await getData('/news/highlights', language);
+      const newsHighlights = await getData('finexusgroup/news/highlights', language);
       data.contents.forEach(item => {
         
         if (item.name === "highlights") {
@@ -49,6 +49,8 @@ export const loader = async ({ params, request }) => {
 
 export default function Index() {
   const { language, slug, data, settings } = useLoaderData();
+  const [searchParams] = useSearchParams();
+  const showdata = searchParams.get("showdata");
 
   const renderContent = () => {
     if (slug === "home") {
@@ -61,6 +63,11 @@ export default function Index() {
     <>
       {renderContent()}
       <LanguageSelector slug={slug} />
+      {showdata?<div>
+      <pre style={{ fontFamily: "monospace", background: "#f4f4f4", padding: "10px", borderRadius: "5px" }}>
+        {JSON.stringify(data, null, 2)}
+      </pre>
+    </div>:<></>}
     </>
   );
 }  

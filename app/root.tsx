@@ -35,9 +35,9 @@ export const loader = async ({ params, request }:any) => {
   const {language, sbLanguage} = getCurrentLanguage(request);
   // console.log("root loader lang",lang);
 
-  const settings=await getData('settings',sbLanguage);
-  const header=await getData('header',sbLanguage);
-  const footer=await getData('footer',sbLanguage);
+  const settings=await getData('finexusgroup/settings',sbLanguage);
+  const header=await getData('finexusgroup/header',sbLanguage);
+  const footer=await getData('finexusgroup/footer',sbLanguage);
   
   return {
     language,
