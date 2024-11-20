@@ -9,6 +9,7 @@ import { useSearchParams } from "@remix-run/react";
 export const loader = async ({ params, request }) => {
 
   let slug = params["*"] ?? "home";
+  slug= slug.replace("/finexusgroup","");
 
 
   // Extract the language from the URL
@@ -56,7 +57,7 @@ export default function Index() {
     if (slug === "home") {
       return <HomePage blok={{ data, settings }} />;
     }
-    return <Generic blok={{ data, settings }} />;
+    return <p>Page not found</p>;
   };
 
   return (
