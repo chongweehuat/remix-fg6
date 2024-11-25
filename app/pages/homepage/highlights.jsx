@@ -7,7 +7,6 @@ const highlights = ({ blok }) => {
     const contentSection = sectionContent(blok.section);
     const styleSection = blok.styles.styleSection;
     const items = contentSection.newshighlights.items;
-    //console.log(contentSection);
     return (
         <XTag 
             tag="section" 

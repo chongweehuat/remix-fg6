@@ -13,17 +13,18 @@ const Generic = ({ blok, customSectionMap = {} }) => {
     link?.cached_url ? <a href={link.cached_url} >{children}</a> : <>{children}</>
   );
   return (
-    <XTag cmsData={stylePage?.wrapper} cmsDataRef="stylePage.wrapper">
+    <XTag cmsData={stylePage?.wrapper} cmsDataRef="stylePage.wrapper" >
       <XTag cmsData={stylePage?.container} cmsDataRef="stylePage.container">
         <XTag cmsData={stylePage?.main} cmsDataRef="stylePage.main">
           {blok.data.contents.map((section, i) => {
             const sectionLink = storyContent(blok.data, "link");
             const styleSection = storyStyle(blok.data, section.name);
             const Component = customSectionMap[section.name];
+
             return Component ? (
               <Component key={i} blok={{ section: section.content, settings: blok.settings, styles: { styleGlobal, stylePage, styleSection } }} />
             ) : (
-              <XTag key={i} cmsData={styleSection?.wrapper} cmsDataRef="styleSection.wrapper">
+              <XTag key={i} cmsData={styleSection?.wrapper} cmsDataRef="styleSection.wrapper" >
 
                 <SectionLink link={sectionLink} >
                   {section.content.map((element, j) => {

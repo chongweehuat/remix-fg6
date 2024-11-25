@@ -11,7 +11,9 @@ const getData = async(path:any,lang:any) =>{
       console.log("e", e);
       return { data: null };
     });
-  
+    // console.log('getData path:',path);
+    // console.log('getData lang:',lang);
+    // console.log('getData data:',data);
     return data.story.content;
   }
 

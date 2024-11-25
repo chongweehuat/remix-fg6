@@ -9,8 +9,6 @@ import { useSearchParams } from "@remix-run/react";
 export const loader = async ({ params, request }) => {
 
   let slug = params["*"] ?? "home";
-  slug= slug.replace("/finexusgroup","");
-
 
   // Extract the language from the URL
   let url = new URL(request.url);
@@ -30,8 +28,9 @@ export const loader = async ({ params, request }) => {
   slug = pathParts.join("/") || slug;
   slug = slug === "/" || slug === "/home" || slug === language ? "home" : slug;
 
+  slug= slug.replace("finexusgroup/","");
   
-  const settings=await getData('finexusgroup/settings',sbLanguage);
+  const settings=await getData('finexusgroup/settings','en');
   const data = await getData('finexusgroup/'+slug, sbLanguage);
   
   switch (slug) {
