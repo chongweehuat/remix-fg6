@@ -1,6 +1,7 @@
-import { sectionContent, pageStyle } from "../utils/storyData";
+import { sectionContent, pageStyle, getExcerpt } from "../utils/storyData";
 import XTag from "../components/XTag";
 import dateFormatter from "../utils/dateFormatter";
+import { StoryblokComponent } from "@storyblok/react";
 
 const News = ({ blok }) => {
   const contentSection = sectionContent(blok.data.contents);
@@ -108,21 +109,26 @@ const News = ({ blok }) => {
                     </XTag>
     
                     {/* Excerpt */}
-                    <p className="text-gray-600 mt-4">
-                      
-                    </p>
+                    <XTag tag="p" styleClass="text-gray-600 mt-4" cmsData={stylePage.newsExcerpt} cmsDataRef="stylePage.newsExcerpt">
+                      {article.excerpt?
+                      <StoryblokComponent blok={{component:"richtext",content:article.excerpt}} />
+                      :getExcerpt(article.content)}
+                    </XTag>
     
                     {/* Read More Button */}
-                    <div className="mt-4">
-                      <a
+                    <XTag styleClass="mt-4" cmsData={stylePage.readmore} cmsDataRef="stylePage.readmore">
+                      <XTag 
+                        tag="a"
                         href=""
-                        className="inline-block px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-700"
+                        styleClass="inline-block px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-700"
+                        cmsData={stylePage.readmoreLink}
+                        cmsDataRef="stylePage.readmoreLink"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Read more »
-                      </a>
-                    </div>
+                        {contentSection.readmore.content}
+                      </XTag>
+                    </XTag>
                   </XTag>
                 </XTag>
               ))}

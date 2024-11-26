@@ -1,4 +1,5 @@
 import reduceArrayByKey from "./reduceArrayByKey";
+import { richTextResolver } from "@storyblok/richtext";
 
 const storyData = (story: any) => {
     const contents =reduceArrayByKey(story.contents,"name");
@@ -64,4 +65,24 @@ const blockStyle = (styleClass: string , styles: JSON) => {
     return keys.reduce((acc, key) => (acc && acc[key] !== undefined) ? acc[key] : undefined, styles);
 }
 
-export {storyData, storyContent, storyStyle, pageStyle, sectionContent, blockStyle};
+const getExcerpt = (richTextContent:any, wordLimit = 30) => {
+    const {render} :any = richTextResolver();
+    if (!richTextContent) return '';
+    
+    // Convert RichText content to plain text
+    const plainText = render(richTextContent)
+      .replace(/(<([^>]+)>)/gi, '') // Remove any HTML tags
+      .replace(/\s+/g, ' ') // Normalize whitespace
+      .trim();
+  
+    // Split the plain text into words
+    const words = plainText.split(' ');
+  
+    // Extract the first `wordLimit` words and join them
+    const excerpt = words.slice(0, wordLimit).join(' ');
+  
+    // Append ellipsis if the content is longer than the limit
+    return words.length > wordLimit ? `${excerpt}...` : excerpt;
+  };
+
+export {storyData, storyContent, storyStyle, pageStyle, sectionContent, blockStyle, getExcerpt};

@@ -1,5 +1,5 @@
 import XTag from "../../components/XTag";
-import { sectionContent } from "../../utils/storyData";
+import { sectionContent, getExcerpt } from "../../utils/storyData";
 import { StoryblokComponent } from "@storyblok/react";
 import dateFormatter from "../../utils/dateFormatter";
 
@@ -64,7 +64,9 @@ const highlights = ({ blok }) => {
                                 cmsData={styleSection.content}
                                 cmsDataRef="styleSection.content"
                             >
-                               <StoryblokComponent blok={{component:"richtext",content:items[0].content}} />
+                              {items[0].excerpt?  
+                               <StoryblokComponent blok={{component:"richtext",content:items[0].excerpt}} />
+                               :getExcerpt(items[0].content)}
                             </XTag>
                             
                             <XTag 
@@ -124,7 +126,10 @@ const highlights = ({ blok }) => {
                                             cmsData={styleSection.subPostContent}
                                             cmsDataRef="styleSection.subPostContent"
                                         >
-                                            <StoryblokComponent blok={{component:"richtext",content:item.content}} />
+                                            {item.excerpt?
+                                            <StoryblokComponent blok={{component:"richtext",content:item.excerpt}} />
+                                            :getExcerpt(item.content)
+                                            }
                                         </XTag>
                                         
                                         <XTag 
