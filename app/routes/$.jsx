@@ -1,7 +1,7 @@
 import { useLoaderData } from "@remix-run/react";
 import getData from "../utils/getData";
 import HomePage from "../pages/HomePage";
-import Generic from "../components/Generic";
+import News from "../pages/News";
 import LanguageSelector from "../pages/LanguageSelector";
 import { languages, getCurrentLanguage } from "../utils/langs";
 import { useSearchParams } from "@remix-run/react";
@@ -35,7 +35,7 @@ export const loader = async ({ params, request }) => {
   
   switch (slug) {
     case 'home':
-      const newsHighlights = await getData('finexusgroup/news/highlights', language);
+      const newsHighlights = await getData('finexusgroup/newsroom/highlights', language);
       data.contents.forEach(item => {
         
         if (item.name === "highlights") {
@@ -43,6 +43,9 @@ export const loader = async ({ params, request }) => {
           item.content.push({name:"newshighlights",items:newsHighlights.items});
         }
       });
+    case 'news':
+      const news = await getData('finexusgroup/newsroom/all-news', language);
+      data.news=news;
   }
   return { language, slug, data, settings };
 }
@@ -55,6 +58,9 @@ export default function Index() {
   const renderContent = () => {
     if (slug === "home") {
       return <HomePage blok={{ data, settings }} />;
+    }
+    if (slug === "news") {
+      return <News blok={{ data, settings }} />;
     }
     return <p>Page not found</p>;
   };

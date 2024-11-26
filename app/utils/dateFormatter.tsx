@@ -1,8 +1,8 @@
 import {useCurrentLanguage} from "./langs";
 
-const dateFormatter = (dateString) => {
+const dateFormatter = (dateString:any) => {
     const {currentLanguage} = useCurrentLanguage();
-    const date = new Date(dateString);
+    const date = dateString ? new Date(dateString) : new Date();
 
     const formatter = new Intl.DateTimeFormat(currentLanguage, {
     year: 'numeric',

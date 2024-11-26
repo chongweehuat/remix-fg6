@@ -31,6 +31,17 @@ const storyStyle = (story: any, tag: string) => {
     return style;
 }
 
+const pageStyle = (styles: any) => {
+    const style=styles?.reduce((acc:any, item:any) => {
+        const keyValue = item.name;
+    
+        acc[keyValue] = item.class;
+    
+        return acc;
+      }, {});
+    return style;
+}
+
 const sectionContent = (section:any) =>{
     return reduceArrayByKey(section,"name");
 }
@@ -53,4 +64,4 @@ const blockStyle = (styleClass: string , styles: JSON) => {
     return keys.reduce((acc, key) => (acc && acc[key] !== undefined) ? acc[key] : undefined, styles);
 }
 
-export {storyData, storyContent, storyStyle, sectionContent, blockStyle};
+export {storyData, storyContent, storyStyle, pageStyle, sectionContent, blockStyle};
