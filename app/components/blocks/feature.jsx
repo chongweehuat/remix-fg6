@@ -1,6 +1,6 @@
 import XTag from "../XTag";
 import { blockStyle } from "../../utils/storyData";
-const feature = ({ blok }) => {
+const Feature = ({ blok }) => {
     const titleClass=blockStyle(blok.titleclass,blok.styles);
     const contentClass=blockStyle(blok.contentclass,blok.styles);
     const linkClass=blockStyle(blok.linkclass,blok.styles);
@@ -29,4 +29,4 @@ const feature = ({ blok }) => {
     )
 }
 
-export default feature;
+export default Feature;

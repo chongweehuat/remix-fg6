@@ -15,14 +15,14 @@ import XTag from "./components/XTag";
 import Header from "./pages/Header";
 import Footer from "./pages/Footer";
 import {storyData, storyContent, storyStyle} from "./utils/storyData";
-import text from "./components/blocks/text";
-import textarea from "./components/blocks/textarea";
-import richtext from "./components/blocks/richtext";
-import asset from "./components/blocks/asset";
-import link from "./components/blocks/link";
-import feature from "./components/blocks/feature";
+import Text from "./components/blocks/text";
+import Textarea from "./components/blocks/textarea";
+import RichText from "./components/blocks/richtext";
+import Asset from "./components/blocks/asset";
+import Link from "./components/blocks/link";
+import Feature from "./components/blocks/feature";
 
-const components = {text,textarea,richtext,asset,link,feature};
+const components = {text:Text,textarea:Textarea,richtext:RichText,asset:Asset,link:Link,feature:Feature};
 
 storyblokInit({
   accessToken: "9pCgOUNA8hs00g1hKG8V9wtt",

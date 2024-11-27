@@ -1,6 +1,6 @@
 import XTag from "../XTag";
 import { blockStyle } from "../../utils/storyData";
-const asset = ({blok}) => {
+const Asset = ({blok}) => {
     const blokClass=blockStyle(blok.class,blok.styles);
     const linkClass=blockStyle(blok.linkclass,blok.styles);
     const AssetLink = ({blok, children}) =>(
@@ -27,4 +27,4 @@ const asset = ({blok}) => {
     )
 }
 
-export default asset;
+export default Asset;

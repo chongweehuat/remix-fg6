@@ -1,6 +1,6 @@
 import XTag from "../XTag";
 import { blockStyle } from "../../utils/storyData";
-const link = ({blok, children}) => {
+const Link = ({blok, children}) => {
     const linkClass=blockStyle(blok.class,blok.styles);
     
     return blok.link.cached_url ? <XTag 
@@ -13,4 +13,4 @@ const link = ({blok, children}) => {
     
 }
 
-export default link;
+export default Link;
