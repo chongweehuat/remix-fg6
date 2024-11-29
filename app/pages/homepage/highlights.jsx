@@ -36,7 +36,7 @@ const highlights = ({ blok }) => {
                         cmsData={styleSection.mainPostWrapper}
                         cmsDataRef="styleSection.mainPostWrapper"
                     >
-                        <a href={items[0].link?.cached_url}>
+                        <a href="">
                             <XTag 
                                 tag="img"
                                 src={items[0].image.filename}
@@ -48,12 +48,12 @@ const highlights = ({ blok }) => {
                         <XTag styleClass="p-4" cmsData={styleSection.mainPostContainer} cmsDataRef="styleSection.mainPostContainer">
                             <XTag 
                                 tag="a"
-                                href={items[0].link?.cached_url}
+                                href=""
                                 styleClass="text-lg font-bold text-gray-800 hover:text-blue-500"
                                 cmsData={styleSection.titleLink}
                                 cmsDataRef="styleSection.titleLink"
                             >
-                                {items[0].title}
+                                <StoryblokComponent blok={{ component: "richtext", content: items[0].title }} />
                             </XTag>
                             <XTag tag="p" styleClass="text-sm text-gray-600 mt-2" cmsData={styleSection.date} cmsDataRef="styleSection.date" >
                                 {dateFormatter(items[0].datetime)}
@@ -64,14 +64,14 @@ const highlights = ({ blok }) => {
                                 cmsData={styleSection.content}
                                 cmsDataRef="styleSection.content"
                             >
-                              {items[0].excerpt?  
+                              {getExcerpt(items[0].excerpt)?  
                                <StoryblokComponent blok={{component:"richtext",content:items[0].excerpt}} />
                                :getExcerpt(items[0].content)}
                             </XTag>
                             
                             <XTag 
                                 tag="a"
-                                href={items[0].link?.cached_url}
+                                href=""
                                 styleClass="text-blue-500 hover:underline mt-2 inline-block"
                                 cmsData={styleSection.linkLabel}
                                 cmsDataRef="styleSection.linkLabel"
@@ -108,12 +108,12 @@ const highlights = ({ blok }) => {
                                         
                                         <XTag 
                                             tag="a"
-                                            href={item.link?.cached_url}
+                                            href=""
                                             styleClass="text-lg font-bold text-gray-800 hover:text-blue-500"
                                             cmsData={styleSection.titleLink}
                                             cmsDataRef="styleSection.titleLink"
                                         >
-                                            {item.title}
+                                            <StoryblokComponent blok={{ component: "richtext", content: item.title }} />
                                         </XTag>
                                         
                                         <XTag tag="p" styleClass="text-sm text-gray-600 mt-2" cmsData={styleSection.date} cmsDataRef="styleSection.date" >
@@ -126,7 +126,7 @@ const highlights = ({ blok }) => {
                                             cmsData={styleSection.subPostContent}
                                             cmsDataRef="styleSection.subPostContent"
                                         >
-                                            {item.excerpt?
+                                            {getExcerpt(item.excerpt)?
                                             <StoryblokComponent blok={{component:"richtext",content:item.excerpt}} />
                                             :getExcerpt(item.content)
                                             }
@@ -134,7 +134,7 @@ const highlights = ({ blok }) => {
                                         
                                         <XTag 
                                             tag="a"
-                                            href={item.link?.cached_url}
+                                            href=""
                                             styleClass="text-blue-500 hover:underline mt-2 inline-block"
                                             cmsData={styleSection.linkLabel}
                                             cmsDataRef="styleSection.linkLabel"

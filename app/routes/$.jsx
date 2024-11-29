@@ -35,16 +35,26 @@ export const loader = async ({ params, request }) => {
   
   switch (slug) {
     case 'home':
-      const newsHighlights = await getData('finexusgroup/newsroom/highlights', language);
+      
       data.contents.forEach(item => {
         
         if (item.name === "highlights") {
+            item.content.forEach(element => {
+                if(element.name==="Highlights List"){
+                  let newsHighlights=[];
+                  element.items.forEach(async slug => {
+                    const newsHighlight = await getData('finexusgroup/newsblogs/'+slug.text, language);
+                    newsHighlights.push(newsHighlight);
+                  })
+                  item.content.push({name:"newshighlights",items:newsHighlights});
+                }
+            });
           
-          item.content.push({name:"newshighlights",items:newsHighlights.items});
         }
       });
     case 'news':
-      const news = await getData('finexusgroup/newsroom/all-news', language);
+      const news = await getData('finexusgroup/newsblogs', language,true);
+      //console.log("news:",news);
       data.news=news;
   }
   return { language, slug, data, settings };

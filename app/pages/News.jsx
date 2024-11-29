@@ -6,7 +6,7 @@ import { StoryblokComponent } from "@storyblok/react";
 
 const News = ({ blok }) => {
   const filterNewsByYear = (year) => {
-    return blok.data.news.items.filter((article) => {
+    return blok.data.news.filter((article) => {
       const articleYear = new Date(article.datetime).getFullYear();
       return articleYear === year;
     });
@@ -120,12 +120,11 @@ const News = ({ blok }) => {
                   rel="noopener noreferrer"
                 >
                   <XTag 
-                    tag="h2" 
                     styleClass="text-lg font-semibold text-gray-800 hover:text-indigo-600 transition-colors duration-200"
                     cmsData={stylePage.newsTitle}
                     cmsDataRef="stylePage.newsTitle"
                   >
-                    {article.title}
+                    <StoryblokComponent blok={{ component: "richtext", content: article.title }} />
                   </XTag>
                 </a>
 
@@ -138,16 +137,24 @@ const News = ({ blok }) => {
                   {dateFormatter(article.datetime)}
                 </XTag>
 
-                <XTag 
-                  styleClass="text-gray-600 mt-4" 
-                  cmsData={stylePage.newsExcerpt} 
-                  cmsDataRef="stylePage.newsExcerpt"
-                >
-                  {article.excerpt
-                    ? <StoryblokComponent blok={{ component: "richtext", content: article.excerpt }} />
-                    : getExcerpt(article.content)}
-                </XTag>
-
+                
+                {getExcerpt(article.excerpt)
+                  ? <XTag 
+                    styleClass="mt-4" 
+                    cmsData={stylePage.newsRichTextExcerpt} 
+                    cmsDataRef="stylePage.newsRichTextExcerpt"
+                    >
+                      <StoryblokComponent blok={{ component: "richtext", content: article.excerpt }} />
+                    </XTag>
+                  : <XTag 
+                      styleClass="text-gray-600 mt-4" 
+                      cmsData={stylePage.newsExcerpt} 
+                      cmsDataRef="stylePage.newsExcerpt"
+                    >
+                      {getExcerpt(article.content)}
+                    </XTag>
+                }
+                    
                 <XTag 
                   styleClass="mt-4" 
                   cmsData={stylePage.readmore} 
