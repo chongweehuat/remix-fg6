@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { sectionContent, pageStyle, getExcerpt } from "../utils/storyData";
+import { storyContent,storyStyle, sectionContent, pageStyle, getExcerpt } from "../utils/storyData";
 import XTag from "../components/XTag";
 import dateFormatter from "../utils/dateFormatter";
 import { StoryblokComponent } from "@storyblok/react";
@@ -20,8 +20,8 @@ const News = ({ blok }) => {
     setSelectedYear(year);
   };
 
-  const contentSection = sectionContent(blok.data.contents);
-  const stylePage = pageStyle(blok.data.styles);
+  const contentSection = storyContent(blok.data, "summary");
+  const stylePage = storyStyle(blok.data, "summary");
 
   return (
     <XTag 
