@@ -4,6 +4,8 @@ import { StoryblokComponent } from "@storyblok/react";
 import dateFormatter from "../../utils/dateFormatter";
 
 const highlights = ({ blok }) => {
+    // console.log(blok);
+    // return <></>
     const contentSection = sectionContent(blok.section);
     const styleSection = blok.styles.styleSection;
     const items = contentSection.newshighlights.items;

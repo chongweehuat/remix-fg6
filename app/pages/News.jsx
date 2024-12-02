@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { storyContent,storyStyle, sectionContent, pageStyle, getExcerpt } from "../utils/storyData";
 import XTag from "../components/XTag";
 import dateFormatter from "../utils/dateFormatter";
 import { StoryblokComponent } from "@storyblok/react";
+import { useNavigate, useNavigation } from '@remix-run/react';
 
 const News = ({ blok }) => {
-  const filterNewsByYear = (year) => {
-    return blok.data.news.filter((article) => {
-      const articleYear = new Date(article.datetime).getFullYear();
-      return articleYear === year;
-    });
-  };
-
-  const [news, setNews] = useState(filterNewsByYear(new Date().getFullYear()));
+  const navigate = useNavigate();
+  const navigation = useNavigation(); 
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleYearSelection = (year) => {
-    setNews(filterNewsByYear(year));
+    setIsLoading(true); 
     setSelectedYear(year);
+    navigate(`/news/${year}`);
+    
   };
+
+  useEffect(() => {
+    if (navigation.state === "idle") {
+      setIsLoading(false); // Stop loading when navigation completes
+    }
+  }, [navigation.state]);
 
   const contentSection = storyContent(blok.data, "summary");
   const stylePage = storyStyle(blok.data, "summary");
@@ -78,13 +83,21 @@ const News = ({ blok }) => {
           })}
         </XTag>
 
+        {isLoading && (
+          <p className="text-center text-indigo-600 text-lg my-8">
+            Loading...
+          </p>
+        )}
+
+{!isLoading && (<>
+  
         {/* News Grid */}
         <XTag 
           styleClass="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           cmsData={stylePage.newsGrid}
           cmsDataRef="stylePage.newsGrid"
         >
-          {news.map((article) => (
+          {blok.data.news.map((article) => (
             <XTag
               key={article._uid}
               styleClass="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
@@ -176,7 +189,9 @@ const News = ({ blok }) => {
             </XTag>
           ))}
         </XTag>
+        </>)}
       </XTag>
+      
     </XTag>
   );
 };
