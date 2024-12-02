@@ -3,6 +3,7 @@ import getData from "../utils/getData";
 import { isYear } from "../utils/validators";
 import HomePage from "../pages/HomePage";
 import News from "../pages/News";
+import NewsBlog from "../pages/NewsBlog";
 import LanguageSelector from "../pages/LanguageSelector";
 import { languages, getCurrentLanguage } from "../utils/langs";
 import { useSearchParams } from "@remix-run/react";
@@ -38,6 +39,8 @@ export const loader = async ({ params, request }) => {
 
   const settings=await getData('finexusgroup/settings','en');
   const data = await getData('finexusgroup/'+slug, sbLanguage);
+  let slugYear = "";
+  let slugBlog = ""; 
 
   switch (slug) {
     case 'home':
@@ -50,6 +53,7 @@ export const loader = async ({ params, request }) => {
                   let newsHighlights=[];
                   element.items.forEach(async slug => {
                     const newsHighlight = await getData('finexusgroup/newsblogs/'+slug.text, language);
+                    newsHighlight.slug=slug.text;
                     newsHighlights.push(newsHighlight);
                   })
                   item.content.push({name:"newshighlights",items:newsHighlights});
@@ -59,8 +63,7 @@ export const loader = async ({ params, request }) => {
         }
       });
     case 'news':
-      let slugYear = "";
-      let slugBlog = ""; 
+      
 
       if (!slugParts[1] || slugParts[1].trim() === "") {
           const currentYear = new Date().getFullYear();
@@ -80,11 +83,11 @@ export const loader = async ({ params, request }) => {
       }
       
   }
-  return { language, slug, data, settings };
+  return { language, slug, slugYear, slugBlog, data, settings };
 }
 
 export default function Index() {
-  const { language, slug, data, settings } = useLoaderData();
+  const { language, slug, slugYear, slugBlog, data, settings } = useLoaderData();
   const [searchParams] = useSearchParams();
   const showdata = searchParams.get("showdata");
 
@@ -93,7 +96,8 @@ export default function Index() {
       return <HomePage blok={{ data, settings }} />;
     }
     if (slug === "news") {
-      return <News blok={{ data, settings }} />;
+      if(slugBlog) return <NewsBlog blok={{ data, settings }} /> ;
+      else return <News blok={{ data, settings }} />;
     }
     return <p>Page not found</p>;
   };

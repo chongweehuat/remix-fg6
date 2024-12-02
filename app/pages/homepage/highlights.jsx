@@ -9,6 +9,7 @@ const highlights = ({ blok }) => {
     const contentSection = sectionContent(blok.section);
     const styleSection = blok.styles.styleSection;
     const items = contentSection.newshighlights.items;
+    //console.log(items);
     return (
         <XTag 
             tag="section" 
@@ -38,7 +39,7 @@ const highlights = ({ blok }) => {
                         cmsData={styleSection.mainPostWrapper}
                         cmsDataRef="styleSection.mainPostWrapper"
                     >
-                        <a href="">
+                        <a href={`/news/${items[0].slug}`}>
                             <XTag 
                                 tag="img"
                                 src={items[0].image.filename}
@@ -50,7 +51,7 @@ const highlights = ({ blok }) => {
                         <XTag styleClass="p-4" cmsData={styleSection.mainPostContainer} cmsDataRef="styleSection.mainPostContainer">
                             <XTag 
                                 tag="a"
-                                href=""
+                                href={`/news/${items[0].slug}`}
                                 styleClass="text-lg font-bold text-gray-800 hover:text-blue-500"
                                 cmsData={styleSection.titleLink}
                                 cmsDataRef="styleSection.titleLink"
@@ -73,7 +74,7 @@ const highlights = ({ blok }) => {
                             
                             <XTag 
                                 tag="a"
-                                href=""
+                                href={`/news/${items[0].slug}`}
                                 styleClass="text-blue-500 hover:underline mt-2 inline-block"
                                 cmsData={styleSection.linkLabel}
                                 cmsDataRef="styleSection.linkLabel"
@@ -94,7 +95,7 @@ const highlights = ({ blok }) => {
                                 >
                                     <XTag 
                                         tag="a" 
-                                        href="https://www.finexusgroup.com/e-invoicing-feasible-for-msmes/" 
+                                        href={`/news/${item.slug}`}
                                         styleClass="flex-shrink-0"
                                         cmsData={styleSection.subPostImageLink}
                                     >
@@ -110,7 +111,7 @@ const highlights = ({ blok }) => {
                                         
                                         <XTag 
                                             tag="a"
-                                            href=""
+                                            href={`/news/${item.slug}`}
                                             styleClass="text-lg font-bold text-gray-800 hover:text-blue-500"
                                             cmsData={styleSection.titleLink}
                                             cmsDataRef="styleSection.titleLink"
@@ -136,7 +137,7 @@ const highlights = ({ blok }) => {
                                         
                                         <XTag 
                                             tag="a"
-                                            href=""
+                                            href={`/news/${item.slug}`}
                                             styleClass="text-blue-500 hover:underline mt-2 inline-block"
                                             cmsData={styleSection.linkLabel}
                                             cmsDataRef="styleSection.linkLabel"
