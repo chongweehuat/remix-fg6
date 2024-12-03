@@ -15,7 +15,10 @@ const getData = async (path: string, lang: string, allStories = false) => {
 
       //console.log(`[INFO] Fetched stories for year ${year}:`, data.stories);
 
-      return data.stories.map((story: any) => story.content); // Return all stories' content
+      return data.stories.map((story: any) => ({
+        slug: story.slug,
+        content: story.content,
+      }));
     } else {
       // Fetch a specific story by its path
       const { data } = await storyblokApi.get(`cdn/stories/${path}`, {

@@ -80,6 +80,7 @@ export const loader = async ({ params, request }) => {
       }else{
         const news = await getData('finexusgroup/newsblogs/'+slugYear, language,true);
         data.news=news;
+        data.year=slugYear;
       }
       
   }

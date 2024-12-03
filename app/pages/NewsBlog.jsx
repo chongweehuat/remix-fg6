@@ -7,6 +7,7 @@ const NewsBlog = ({ blok }) => {
   const contentSection = storyContent(blok.data, "blog");
   const stylePage = storyStyle(blok.data, "blog");
   const article = blok.data.news;
+  const year = article.datetime.split("-")[0];
 
   return (
     <XTag styleClass="bg-gray-100" cmsData={stylePage.wrapper} cmsDataRef="stylePage.wrapper">
@@ -21,7 +22,7 @@ const NewsBlog = ({ blok }) => {
           <li>
             <XTag 
               tag="a" 
-              href="/news" 
+              href={`/news/${year}`}
               styleClass="hover:underline text-blue-500" 
               cmsData={stylePage.breadcrumbLink} 
               cmsDataRef="stylePage.breadcrumbLink"
@@ -46,7 +47,7 @@ const NewsBlog = ({ blok }) => {
               cmsData={stylePage.breadcrumbYear} 
               cmsDataRef="stylePage.breadcrumbYear"
             >
-              {article.datetime.split("-")[0]}
+              {year}
             </XTag> 
           </li>
         </XTag>
