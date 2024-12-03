@@ -9,7 +9,7 @@ const highlights = ({ blok }) => {
     const contentSection = sectionContent(blok.section);
     const styleSection = blok.styles.styleSection;
     const items = contentSection.newshighlights.items;
-    //console.log(items);
+    // console.log(`/news/${items[0].slug}`);
     return (
         <XTag 
             tag="section" 
@@ -39,7 +39,7 @@ const highlights = ({ blok }) => {
                         cmsData={styleSection.mainPostWrapper}
                         cmsDataRef="styleSection.mainPostWrapper"
                     >
-                        <a href={`/news/${items[0].slug}`}>
+                        {/* <XTag tag="a" href={`/news/${items[0].slug}`}> */}
                             <XTag 
                                 tag="img"
                                 src={items[0].image.filename}
@@ -47,7 +47,7 @@ const highlights = ({ blok }) => {
                                 styleClass="w-full h-64 object-cover"
                                 cmsData={styleSection.mainPostImage}
                             />
-                        </a>
+                        {/* </XTag> */}
                         <XTag styleClass="p-4" cmsData={styleSection.mainPostContainer} cmsDataRef="styleSection.mainPostContainer">
                             <XTag 
                                 tag="a"
