@@ -49,7 +49,7 @@ export const loader = async ({ params, request }:any) => {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { settings, header, footer }:any = useLoaderData();
-  //console.log(settings);
+  
   const setting = storyContent(settings,"global");
   const styleGlobal = storyStyle(settings,"global");
   return (
