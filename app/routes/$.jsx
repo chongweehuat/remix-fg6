@@ -1,5 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
 import getData from "../utils/getData";
+import { getPreviousAndNextBlogs } from "../utils/getData";
 import { isYear } from "../utils/validators";
 import HomePage from "../pages/HomePage";
 import News from "../pages/News";
@@ -76,6 +77,7 @@ export const loader = async ({ params, request }) => {
       }
       if(slugBlog){
         const news = await getData('finexusgroup/newsblogs/'+slugYear+'/'+slugBlog, language);
+        data.PreviousAndNextBlogs=await getPreviousAndNextBlogs(slugBlog,slugYear,language);
         data.news=news;
       }else{
         const news = await getData('finexusgroup/newsblogs/'+slugYear, language,true);

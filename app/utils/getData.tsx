@@ -39,4 +39,26 @@ const getData = async (path: string, lang: string, allStories = false) => {
   }
 };
 
+export const getPreviousAndNextBlogs = async (currentSlug: string, slugYear: string, language: string) => {
+  // Fetch all blogs for the given year
+  const allBlogs = await getData(`finexusgroup/newsblogs/${slugYear}/`, language, true);
+
+  if (!allBlogs || allBlogs.length === 0) {
+    return { previous: null, next: null }; // No blogs found
+  }
+
+  // Find the index of the current blog
+  const currentIndex = allBlogs.findIndex((blog:any) => blog.slug === currentSlug);
+
+  if (currentIndex === -1) {
+    return { previous: null, next: null }; // Current blog not found
+  }
+
+  // Determine previous and next blogs
+  const previous = currentIndex > 0 ? allBlogs[currentIndex - 1] : null;
+  const next = currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null;
+
+  return { previous, next };
+};
+
 export default getData;
