@@ -40,23 +40,41 @@ const getData = async (path: string, lang: string, allStories = false) => {
 };
 
 export const getPreviousAndNextBlogs = async (currentSlug: string, slugYear: string, language: string) => {
+  const year = parseInt(slugYear, 10);
+
   // Fetch all blogs for the given year
-  const allBlogs = await getData(`finexusgroup/newsblogs/${slugYear}/`, language, true);
+  const allBlogs = await getData(`finexusgroup/newsblogs/${year}/`, language, true);
 
   if (!allBlogs || allBlogs.length === 0) {
     return { previous: null, next: null }; // No blogs found
   }
 
   // Find the index of the current blog
-  const currentIndex = allBlogs.findIndex((blog:any) => blog.slug === currentSlug);
+  const currentIndex = allBlogs.findIndex((blog: any) => blog.slug === currentSlug);
 
   if (currentIndex === -1) {
     return { previous: null, next: null }; // Current blog not found
   }
 
-  // Determine previous and next blogs
-  const previous = currentIndex > 0 ? allBlogs[currentIndex - 1] : null;
-  const next = currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null;
+  // Determine previous and next blogs within the current year
+  let previous = currentIndex > 0 ? allBlogs[currentIndex - 1] : null;
+  let next = currentIndex < allBlogs.length - 1 ? allBlogs[currentIndex + 1] : null;
+
+  // Fetch from the previous year if needed
+  if (!previous) {
+    const previousYearBlogs = await getData(`finexusgroup/newsblogs/${year - 1}/`, language, true);
+    if (previousYearBlogs && previousYearBlogs.length > 0) {
+      previous = previousYearBlogs[previousYearBlogs.length - 1]; // Last blog of the previous year
+    }
+  }
+
+  // Fetch from the next year if needed
+  if (!next) {
+    const nextYearBlogs = await getData(`finexusgroup/newsblogs/${year + 1}/`, language, true);
+    if (nextYearBlogs && nextYearBlogs.length > 0) {
+      next = nextYearBlogs[0]; // First blog of the next year
+    }
+  }
 
   return { previous, next };
 };

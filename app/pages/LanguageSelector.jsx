@@ -43,9 +43,6 @@ const LanguageSelector = ({slug}) => {
                             <a
                                 key={language}
                                 href={getTransLink(slug, language)}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                }}
                                 title={languagesName[language]}
                                 className="hover:text-gray-400 px-4 py-2"
                             >
