@@ -4,13 +4,15 @@ import XTag from "../components/XTag";
 import dateFormatter from "../utils/dateFormatter";
 import { StoryblokComponent } from "@storyblok/react";
 import { Link } from '@remix-run/react';
+import { useCurrentLanguage, getTransLink, getSlug} from "../utils/langs";
 
 const News = ({ blok }) => {
 
   const contentSection = storyContent(blok.data, "summary");
   const stylePage = storyStyle(blok.data, "summary");
   const year = blok.data.year;
-
+  const { currentLanguage } = useCurrentLanguage();
+  // console.log("currentLanguage:",currentLanguage);
   return (
     <XTag
       tag="section"
@@ -38,7 +40,7 @@ const News = ({ blok }) => {
           {contentSection.years.content.split(',').map((eachYear) => ( 
             <li key={eachYear.trim()}>
               <Link 
-                to={`/news/${eachYear.trim()}`} 
+                to={`/${currentLanguage}/news/${eachYear.trim()}`} 
                 className={`px-4 py-2 rounded shadow ${eachYear.trim() === String(year)
                   ? 'bg-indigo-600 text-white' 
                   : 'bg-white text-gray-700 hover:bg-indigo-50'
@@ -67,8 +69,8 @@ const News = ({ blok }) => {
               cmsDataRef="stylePage.newsContainer"
             >
               {/* Article Image */}
-              <a
-                href={`/news/${year}/${slug}`}
+              <Link
+                to={`/${currentLanguage}/news/${year}/${slug}`}
                 className="block"
               >
                 <XTag
@@ -79,7 +81,7 @@ const News = ({ blok }) => {
                   cmsData={stylePage.newsImage}
                   cmsDataRef="stylePage.newsImage"
                 />
-              </a>
+              </Link>
 
               {/* Article Content */}
               <XTag
@@ -87,8 +89,8 @@ const News = ({ blok }) => {
                 cmsData={stylePage.newsContent}
                 cmsDataRef="stylePage.newsContent"
               >
-                <a
-                  href={`/news/${year}/${slug}`}
+                <Link
+                  to={`/${currentLanguage}/news/${year}/${slug}`}
                 >
                   <XTag
                     styleClass="text-lg font-semibold text-gray-800 hover:text-indigo-600 transition-colors duration-200"
@@ -97,7 +99,7 @@ const News = ({ blok }) => {
                   >
                     <StoryblokComponent blok={{ component: "richtext", content: article.title }} />
                   </XTag>
-                </a>
+                </Link>
 
                 <XTag
                   tag="p"
@@ -133,7 +135,7 @@ const News = ({ blok }) => {
                 >
                   <XTag
                     tag="a"
-                    href={`/news/${year}/${slug}`}
+                    href={`/${currentLanguage}/news/${year}/${slug}`}
                     styleClass="inline-block px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-700"
                     cmsData={stylePage.readmoreLink}
                     cmsDataRef="stylePage.readmoreLink"

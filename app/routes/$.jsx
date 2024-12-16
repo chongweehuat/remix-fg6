@@ -10,7 +10,7 @@ import { languages, getCurrentLanguage } from "../utils/langs";
 import { useSearchParams } from "@remix-run/react";
 
 export const loader = async ({ params, request }) => {
-
+  // console.log(params,request);
   let slug = params["*"] ?? "home";
 
 
@@ -93,7 +93,7 @@ export default function Index() {
   const { language, slug, slugYear, slugBlog, data, settings } = useLoaderData();
   const [searchParams] = useSearchParams();
   const showdata = searchParams.get("showdata");
-
+  
   const renderContent = () => {
     if (slug === "home") {
       return <HomePage blok={{ data, settings }} />;
@@ -108,7 +108,7 @@ export default function Index() {
   return (
     <>
       {renderContent()}
-      <LanguageSelector slug={slug} />
+      <LanguageSelector />
       {showdata?<div>
       <pre style={{ fontFamily: "monospace", background: "#f4f4f4", padding: "10px", borderRadius: "5px" }}>
         {JSON.stringify(data, null, 2)}

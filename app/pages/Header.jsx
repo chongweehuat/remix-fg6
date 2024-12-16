@@ -2,9 +2,12 @@ import { useState } from "react";
 import { FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
 import { storyData, storyContent, storyStyle } from "../utils/storyData";
 import XTag from "../components/XTag";
+import { Link } from "@remix-run/react";
+import { useCurrentLanguage, getTransLink, getSlug} from "../utils/langs";
 
 const Header = ({ blok }) => {
     const [openMenu, setOpenMenu] = useState(false);
+    const { currentLanguage } = useCurrentLanguage();
 
     const contentLogo = storyContent(blok.header, "logo");
     const contentMenus = storyContent(blok.header, "menus");
@@ -89,47 +92,52 @@ const Header = ({ blok }) => {
                     cmsData={stylePage.main}
                     cmsDataRef="stylePage.main"
                 >
-                    <XTag
-                        styleClass="flex justify-start lg:w-0 lg:flex-1"
-                        cmsData={styleLogo.wrapper}
-                        cmsDataRef="styleLogo.wrapper"
-                    >
-                        <XTag tag="img"
-                            styleClass="h-20 w-auto sm:h-10 sm:hidden"
-                            cmsData={styleLogo.desktopWrapper}
-                            cmsDataRef="styleLogo.desktopWrapper"
-                            src={contentLogo.logoMobile.asset.filename}
-                            alt={contentGlobal.siteTitle.content}
-                        />
-                        <XTag tag="img"
-                            styleClass="h-20 w-auto sm:h-10 hidden sm:block"
-                            cmsData={styleLogo.mobileWrapper}
-                            cmsDataRef="styleLogo.mobileWrapper"
-                            src={contentLogo.logoDesktop.asset.filename}
-                            alt={contentGlobal.siteTitle.content}
-                        />
-                    </XTag>
-
-                    <XTag
-                        styleClass="-mr-2 -my-2 md:hidden"
-                        cmsData={styleMobileButton.wrapper}
-                        cmsDataRef="styleMobileButton.wrapper"
-                    >
-                        <button
-                            type="button"
-                            onClick={() => setOpenMenu(true)}
-                            className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                            aria-expanded="false"
+                    
+                        <XTag
+                            styleClass="flex justify-start lg:w-0 lg:flex-1"
+                            cmsData={styleLogo.wrapper}
+                            cmsDataRef="styleLogo.wrapper"
                         >
-                            <span className="sr-only">Open menu</span>
-                            <XTag
-                                tag={FiMenu}
-                                styleClass="h-6 w-6"
-                                cmsData={styleMobileButton.element}
-                                cmsDataRef="styleMobileButton.element" />
-                        </button>
-                    </XTag>
+                            <Link to={getTransLink(getSlug(contentLogo.logoMobile.link.cached_url), currentLanguage)}>
+                            <XTag tag="img"
+                                styleClass="h-20 w-auto sm:h-10 sm:hidden"
+                                cmsData={styleLogo.desktopWrapper}
+                                cmsDataRef="styleLogo.desktopWrapper"
+                                src={contentLogo.logoMobile.asset.filename}
+                                alt={contentGlobal.siteTitle.content}
+                            />
+                            </Link>
+                            <Link to={getTransLink(getSlug(contentLogo.logoDesktop.link.cached_url), currentLanguage)}>
+                            <XTag tag="img"
+                                styleClass="h-20 w-auto sm:h-10 hidden sm:block"
+                                cmsData={styleLogo.mobileWrapper}
+                                cmsDataRef="styleLogo.mobileWrapper"
+                                src={contentLogo.logoDesktop.asset.filename}
+                                alt={contentGlobal.siteTitle.content}
+                            />
+                            </Link>
+                        </XTag>
 
+                        <XTag
+                            styleClass="-mr-2 -my-2 md:hidden"
+                            cmsData={styleMobileButton.wrapper}
+                            cmsDataRef="styleMobileButton.wrapper"
+                        >
+                            <button
+                                type="button"
+                                onClick={() => setOpenMenu(true)}
+                                className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                                aria-expanded="false"
+                            >
+                                <span className="sr-only">Open menu</span>
+                                <XTag
+                                    tag={FiMenu}
+                                    styleClass="h-6 w-6"
+                                    cmsData={styleMobileButton.element}
+                                    cmsDataRef="styleMobileButton.element" />
+                            </button>
+                        </XTag>
+                    
                     <XTag
                         tag="nav"
                         styleClass="hidden md:flex items-center justify-end md:flex-1 lg:w-0 space-x-8"

@@ -1,15 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useCurrentLanguage, getTransLink, languages, languagesName } from "../utils/langs";
-import { useLocation } from "@remix-run/react";
+import { useLocation, Link } from "@remix-run/react";
 
-const LanguageSelector = ({slug}) => {
+const LanguageSelector = () => {
     const [dropdownWidth, setDropdownWidth] = useState(145);
     const currentLangRef = useRef(null);
-    const { currentLanguage } = useCurrentLanguage();
+    const { currentPath,currentLanguage } = useCurrentLanguage();
 
     const availableLanguages = languages.filter(
         (language) => language !== currentLanguage
     );
+
+    const languagePath = (language) => {
+        let newPath;
+        if(currentPath.includes(currentLanguage))newPath=currentPath.replace(currentLanguage,language);
+        else newPath="/"+language+currentPath;
+        if(newPath==="/"+language+"/")newPath+="home";
+        
+        return newPath;
+    };
 
     useEffect(() => {
         if (currentLangRef.current) {
@@ -40,14 +49,14 @@ const LanguageSelector = ({slug}) => {
                 >
                     <div className="flex flex-col">
                         {availableLanguages.map((language) => (
-                            <a
+                            <Link
                                 key={language}
-                                href={getTransLink(slug, language)}
+                                to={languagePath(language)}
                                 title={languagesName[language]}
                                 className="hover:text-gray-400 px-4 py-2"
                             >
                                 {languagesName[language]}
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 </div>

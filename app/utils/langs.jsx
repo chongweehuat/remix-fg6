@@ -24,6 +24,20 @@ const useCurrentLanguage = () => {
   return { currentPath, currentLanguage };
 };
 
+const getSlug = (param) => {
+  
+  let slug = param ?? "home";
+  let pathParts = slug.split("/");
+  let language = pathParts[1];
+
+  if (language in storyblokLanguage) {
+    slug= slug.replace("/"+language+"/",""); 
+  }
+  slug= slug.replace("finexusgroup/","");
+  
+  return slug;
+}
+
 const getCurrentLanguage = (request) => {
   let url = new URL(request.url);
   let pathParts = url.pathname.split("/");
@@ -56,4 +70,4 @@ const getTransLink = (slug, language) => {
   return transLink;
 }
 
-export { getTransLink, languages, languagesName, storyblokLanguage, useCurrentLanguage, getCurrentLanguage };
+export { getTransLink,getSlug, languages, languagesName, storyblokLanguage, useCurrentLanguage, getCurrentLanguage };

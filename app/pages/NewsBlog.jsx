@@ -2,6 +2,8 @@ import { storyContent, storyStyle } from "../utils/storyData";
 import { StoryblokComponent } from "@storyblok/react";
 import XTag from "../components/XTag";
 import dateFormatter from "../utils/dateFormatter";
+import { useCurrentLanguage, getTransLink, getSlug } from "../utils/langs";
+import { Link } from '@remix-run/react';
 
 const NewsBlog = ({ blok }) => {
   const contentSection = storyContent(blok.data, "blog");
@@ -9,7 +11,10 @@ const NewsBlog = ({ blok }) => {
   const article = blok.data.news;
   const year = article.datetime.split("-")[0];
   const { previous, next } = blok.data.PreviousAndNextBlogs;
-
+  const prevYear = previous?.content.datetime?previous.content.datetime.split("-")[0]:0;
+  const nextYear = next?.content.datetime?next.content.datetime.split("-")[0]:0;
+  const { currentLanguage } = useCurrentLanguage();
+  console.log(previous);
   return (
     <>
       <XTag styleClass="bg-gray-100" cmsData={stylePage.wrapper} cmsDataRef="stylePage.wrapper">
@@ -22,15 +27,17 @@ const NewsBlog = ({ blok }) => {
             cmsDataRef="stylePage.breadcrumb"
           >
             <li>
-              <XTag
-                tag="a"
-                href={`/news/${year}`}
-                styleClass="hover:underline text-blue-500"
-                cmsData={stylePage.breadcrumbLink}
-                cmsDataRef="stylePage.breadcrumbLink"
-              >
-                {contentSection.breadcrumb.content}
-              </XTag>
+              <Link to={`/${currentLanguage}/news/${year}`}>
+                <XTag
+                  styleClass="hover:underline text-blue-500"
+                  cmsData={stylePage.breadcrumbLink}
+                  cmsDataRef="stylePage.breadcrumbLink"
+                >
+
+                  {contentSection.breadcrumb.content}
+
+                </XTag>
+              </Link>
             </li>
             <li>
               <XTag
@@ -170,8 +177,8 @@ const NewsBlog = ({ blok }) => {
                   cmsData={stylePage.previousPostWrapper}
                   cmsDataRef="stylePage.previousPostWrapper"
                 >
-                  <a
-                    href={`/news/${year}/${previous.slug}`}
+                  <Link
+                    to={`/${currentLanguage}/news/${prevYear}/${previous.slug}`}
                     rel="prev"
                     className="flex items-center hover:text-gray-900 transition-colors duration-200"
                   >
@@ -186,7 +193,7 @@ const NewsBlog = ({ blok }) => {
                         />
                       </span>
                     </div>
-                  </a>
+                  </Link>
                 </XTag>
               )}
 
@@ -207,8 +214,8 @@ const NewsBlog = ({ blok }) => {
                   cmsData={stylePage.nextPostWrapper}
                   cmsDataRef="stylePage.nextPostWrapper"
                 >
-                  <a
-                    href={`/news/${year}/${next.slug}`}
+                  <Link
+                    to={`/${currentLanguage}/news/${nextYear}/${next.slug}`}
                     rel="next"
                     className="flex items-center justify-end hover:text-gray-900 transition-colors duration-200"
                   >
@@ -223,7 +230,7 @@ const NewsBlog = ({ blok }) => {
                       </span>
                     </div>
                     <i className="fa fa-angle-right ml-2 text-gray-400" aria-hidden="true"></i>
-                  </a>
+                  </Link>
                 </XTag>
               )}
             </XTag>
