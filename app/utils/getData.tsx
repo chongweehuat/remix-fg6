@@ -29,7 +29,7 @@ const getData = async (path: string, lang: string, allStories = false) => {
 
       //console.log(`[INFO] Fetched single story at path ${path}:`, data.story);
 
-      return data.story.content; // Return the specific story's content
+      return data?.story?.content ?? null; 
     }
   } catch (error) {
     console.error(`[ERROR] Failed to fetch data for path "${path}":`, error);

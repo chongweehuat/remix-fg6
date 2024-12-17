@@ -61,6 +61,7 @@ const News = ({ blok }) => {
           {blok.data.news.map((newsobj) =>{ 
             const article=newsobj.content;
             const slug=newsobj.slug;
+            const articleYear = new Date(article.datetime).getFullYear();
             return (
             <XTag
               key={article._uid}
@@ -109,6 +110,13 @@ const News = ({ blok }) => {
                 >
                   {dateFormatter(article.datetime)}
                 </XTag>
+                {articleYear !== Number(year) && (
+                    <div
+                      className="bg-yellow-100 text-yellow-800 text-sm p-2 rounded mt-2"
+                    >
+                      Reminder: This article is from {articleYear}, not {year}.
+                    </div>
+                  )}
 
 
                 {getExcerpt(article.excerpt)

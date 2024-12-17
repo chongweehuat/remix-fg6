@@ -12,8 +12,7 @@ const highlights = ({ blok }) => {
     const styleSection = blok.styles.styleSection;
     const items = contentSection.newshighlights.items;
     const { currentLanguage } = useCurrentLanguage();
-    // console.log(`/news/${items[0].slug}`);
-    return (
+    if(Array.isArray(items) && items.length > 0)return (
         <XTag
             tag="section"
             styleClass="bg-gray-100 py-8"
@@ -155,9 +154,6 @@ const highlights = ({ blok }) => {
                 </XTag>
             </XTag>
         </XTag>
-
-
-
     )
 }
 
