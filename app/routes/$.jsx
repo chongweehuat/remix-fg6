@@ -5,7 +5,7 @@ import HomePage from "../pages/HomePage";
 import News from "../pages/News";
 import NewsBlog from "../pages/NewsBlog";
 import LanguageSelector from "../pages/LanguageSelector";
-import { languages, getCurrentLanguage } from "../utils/langs";
+import { getCurrentLanguage } from "../utils/langs";
 import { useSearchParams } from "@remix-run/react";
 
 export const loader = async ({ params, request }) => {

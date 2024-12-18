@@ -16,9 +16,11 @@ const useCurrentLanguage = () => {
   const location = useLocation(); // Get info about the current webpage
   const currentPath = location.pathname; // Find out the current webpage address
 
-  // Look for a language in the webpage address. If not found, use English.
-  const currentLanguage =
-    languages.find((lang) => currentPath.startsWith(`/${lang}`)) || "en-gb";
+  // Extract the first part of the path (language code) and match it to storyblokLanguage
+  const pathParts = currentPath.split("/").filter(Boolean); // Remove empty strings
+  const language = pathParts[0]; // Get the first part of the path
+  const currentLanguage = storyblokLanguage[language] ? language : "en-gb"; // Default to "en-gb" if not found
+
 
   // Give back the webpage address and the language we found
   return { currentPath, currentLanguage };
@@ -43,7 +45,7 @@ const getCurrentLanguage = (request) => {
   let pathParts = url.pathname.split("/");
   let language = pathParts[1];
 
-  if (!languages.includes(language)) {
+  if (!Object.keys(storyblokLanguage).includes(language)) {
     language = "en-gb";
   }
   
