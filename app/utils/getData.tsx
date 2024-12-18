@@ -1,5 +1,7 @@
 import { getStoryblokApi } from "@storyblok/react";
 
+const CMSPATH = process.env.CMSPATH || "finexusgroup"; // Fallback to "finexusgroup" if CMSPATH is not defined
+
 const getData = async (path: string, lang: string, allStories = false) => {
   try {
     const storyblokApi = getStoryblokApi();
@@ -43,7 +45,7 @@ export const getPreviousAndNextBlogs = async (currentSlug: string, slugYear: str
   const year = parseInt(slugYear, 10);
 
   // Fetch all blogs for the given year
-  const allBlogs = await getData(`finexusgroup/newsblogs/${year}/`, language, true);
+  const allBlogs = await getData(`${CMSPATH}/newsblogs/${year}/`, language, true);
 
   if (!allBlogs || allBlogs.length === 0) {
     return { previous: null, next: null }; // No blogs found
@@ -62,7 +64,7 @@ export const getPreviousAndNextBlogs = async (currentSlug: string, slugYear: str
 
   // Fetch from the previous year if needed
   if (!previous) {
-    const previousYearBlogs = await getData(`finexusgroup/newsblogs/${year - 1}/`, language, true);
+    const previousYearBlogs = await getData(`${CMSPATH}/newsblogs/${year - 1}/`, language, true);
     if (previousYearBlogs && previousYearBlogs.length > 0) {
       previous = previousYearBlogs[previousYearBlogs.length - 1]; // Last blog of the previous year
     }
@@ -70,7 +72,7 @@ export const getPreviousAndNextBlogs = async (currentSlug: string, slugYear: str
 
   // Fetch from the next year if needed
   if (!next) {
-    const nextYearBlogs = await getData(`finexusgroup/newsblogs/${year + 1}/`, language, true);
+    const nextYearBlogs = await getData(`${CMSPATH}/newsblogs/${year + 1}/`, language, true);
     if (nextYearBlogs && nextYearBlogs.length > 0) {
       next = nextYearBlogs[0]; // First blog of the next year
     }

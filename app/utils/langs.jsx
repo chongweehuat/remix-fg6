@@ -1,5 +1,7 @@
 import { useLocation } from "@remix-run/react";
 
+const CMSPATH = process.env.CMSPATH || "finexusgroup"; // Fallback to "finexusgroup" if CMSPATH is not defined
+
 const languages = ["en-gb","ms-my","zh-cn","ta-my"]; // List of languages your app supports
 const storyblokLanguage = {
   "en": "en",
@@ -35,7 +37,7 @@ const getSlug = (param) => {
   if (language in storyblokLanguage) {
     slug= slug.replace("/"+language+"/",""); 
   }
-  slug= slug.replace("finexusgroup/","");
+  slug= slug.replace(`${CMSPATH}/`,"");
   
   return slug;
 }

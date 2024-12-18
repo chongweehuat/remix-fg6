@@ -14,7 +14,7 @@ const NewsBlog = ({ blok }) => {
   const prevYear = previous?.content.datetime?previous.content.datetime.split("-")[0]:0;
   const nextYear = next?.content.datetime?next.content.datetime.split("-")[0]:0;
   const { currentLanguage } = useCurrentLanguage();
-  console.log(previous);
+  //console.log(previous);
   return (
     <>
       <XTag styleClass="bg-gray-100" cmsData={stylePage.wrapper} cmsDataRef="stylePage.wrapper">
@@ -124,13 +124,7 @@ const NewsBlog = ({ blok }) => {
             cmsDataRef="stylePage.postMetadataList"
           >
             <li>
-              <XTag
-                tag="a"
-                href="https://www.finexusgroup.com/2024/09/18/"
-                styleClass="flex items-center space-x-2 hover:underline"
-                cmsData={stylePage.postMetadataLink}
-                cmsDataRef="stylePage.postMetadataLink"
-              >
+              
                 <XTag
                   tag="i"
                   styleClass="fas fa-calendar"
@@ -138,7 +132,7 @@ const NewsBlog = ({ blok }) => {
                   cmsDataRef="stylePage.postMetadataIcon"
                 />
                 {dateFormatter(article.datetime)}
-              </XTag>
+              
             </li>
           </XTag>
         </XTag>
