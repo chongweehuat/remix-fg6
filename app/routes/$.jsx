@@ -29,6 +29,8 @@ export const loader = async ({ params, request }) => {
   let slugParts = slug.split("/");
   slug = slugParts[0];
 
+  if(slug==="newsblogs")slug="news";
+
   // Fetch global settings and page-specific data
   const settings = await getData(`${CMSPATH}/settings`, "en");
   const data = await getData(`${CMSPATH}/${slug}`, sbLanguage);
@@ -39,7 +41,7 @@ export const loader = async ({ params, request }) => {
 
   let slugYear = "";
   let slugBlog = "";
-
+ 
   if (slug === "home") {
     for (const item of data.contents ?? []) {
       if (item.name === "highlights") {
