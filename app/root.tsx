@@ -14,6 +14,8 @@ import XTag from "./components/XTag";
 import Header from "./pages/Header";
 import Footer from "./pages/Footer";
 import { storyData, storyContent, storyStyle } from "./utils/storyData";
+import { getPreferredLanguage } from "./utils/cookies";
+import { redirect } from "@remix-run/node";
 import Text from "./components/blocks/text";
 import Textarea from "./components/blocks/textarea";
 import RichText from "./components/blocks/richtext";
@@ -44,7 +46,18 @@ storyblokInit({
 });
 
 export const loader = async ({ params, request }: any) => {
-  const { language, sbLanguage } = getCurrentLanguage(request);
+  const url = new URL(request.url);
+  const pathParts = url.pathname.split("/").filter(Boolean); // Remove empty strings
+  const language = pathParts[0];
+  
+  const preferredLanguage = getPreferredLanguage(request) || "en-gb";
+
+  if (!language) {
+    // Redirect to the preferred language if missing
+    return redirect(`/${preferredLanguage}${url.pathname}`);
+  }
+
+  const { sbLanguage } = getCurrentLanguage(request);
   const CMSPATH = process.env.CMSPATH; // Retrieve CMS path from environment variables
 
   try {

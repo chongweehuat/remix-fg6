@@ -1,4 +1,6 @@
 import { useLocation } from "@remix-run/react";
+import { getPreferredLanguage } from "./cookies";
+import { parseCookies } from "nookies";
 
 const CMSPATH = typeof window === "undefined" 
 ? process.env.CMSPATH || "finexusgroup"
@@ -20,11 +22,14 @@ const useCurrentLanguage = () => {
   const location = useLocation(); // Get info about the current webpage
   const currentPath = location.pathname; // Find out the current webpage address
 
+  const cookies = parseCookies();
+  const preferredLanguage = cookies.preferredLanguage || "en-gb";
   // Extract the first part of the path (language code) and match it to storyblokLanguage
   const pathParts = currentPath.split("/").filter(Boolean); // Remove empty strings
-  const language = pathParts[0]; // Get the first part of the path
-  const currentLanguage = storyblokLanguage[language] ? language : "en-gb"; // Default to "en-gb" if not found
-
+  const languageFromPath = pathParts[0]; // Get the first part of the path
+  const currentLanguage = storyblokLanguage[languageFromPath]
+    ? languageFromPath
+    : preferredLanguage || "en-gb";
 
   // Give back the webpage address and the language we found
   return { currentPath, currentLanguage };
@@ -50,7 +55,10 @@ const getCurrentLanguage = (request) => {
   let language = pathParts[1];
 
   if (!Object.keys(storyblokLanguage).includes(language)) {
-    language = "en-gb";
+    const preferredLanguage = getPreferredLanguage(request);
+    //console.log("getCurrentLanguage Preferred Language from Cookie:", preferredLanguage);
+
+    language = preferredLanguage || "en-gb"; // Fallback to "en-gb"
   }
   
   return {language, sbLanguage: storyblokLanguage[language]};

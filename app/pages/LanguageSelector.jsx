@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useCurrentLanguage, getTransLink, languages, languagesName } from "../utils/langs";
 import { useLocation, Link } from "@remix-run/react";
+import { setPreferredLanguage } from "../utils/cookies";
 
 const LanguageSelector = () => {
     const [dropdownWidth, setDropdownWidth] = useState(145);
@@ -18,6 +19,10 @@ const LanguageSelector = () => {
         if(newPath==="/"+language+"/")newPath+="home";
         
         return newPath;
+    };
+
+    const handleLanguageChange = (language) => {
+        setPreferredLanguage(language);
     };
 
     useEffect(() => {
@@ -54,6 +59,7 @@ const LanguageSelector = () => {
                                 to={languagePath(language)}
                                 title={languagesName[language]}
                                 className="hover:text-gray-400 px-4 py-2"
+                                onClick={() => handleLanguageChange(language)}
                             >
                                 {languagesName[language]}
                             </Link>
