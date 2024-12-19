@@ -34,8 +34,8 @@ const accessToken = typeof window === "undefined"
   ? process.env.STORYBLOK_ACCESS_TOKEN
   : window.ENV.STORYBLOK_ACCESS_TOKEN
 
-console.log("acessToken:",accessToken);
-  
+//console.log("acessToken:",accessToken);
+
 storyblokInit({
   accessToken, 
   use: [apiPlugin],
