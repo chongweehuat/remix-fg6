@@ -3,7 +3,7 @@ import { FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
 import { storyData, storyContent, storyStyle } from "../utils/storyData";
 import XTag from "../components/XTag";
 import { Link } from "@remix-run/react";
-import { useCurrentLanguage, getTransLink, getSlug} from "../utils/langs";
+import { useCurrentLanguage, getTransLink, getSlug } from "../utils/langs";
 
 const Header = ({ blok }) => {
     const [openMenu, setOpenMenu] = useState(false);
@@ -17,14 +17,15 @@ const Header = ({ blok }) => {
     const styleMenu = storyStyle(blok.header, "menu");
     const styleMobileMenu = storyStyle(blok.header, "mobileMenu");
     const styleMobileButton = storyStyle(blok.header, "mobileButton");
-    
+
     const renderMenu = (menuElement) => {
 
         return (
             <div key={menuElement._uid} >
                 {menuElement.submenu.length == 0 && (
                     <XTag
-                        styleClass="text-sm font-medium text-gray-500 hover:text-gray-900 cursor-pointer flex items-center"
+                        styleClass="text-sm font-medium text-gray-700 hover:text-yellow-600 cursor-pointer flex items-center"
+                        useCss
                         cmsData={styleMenu.label}
                         cmsDataRef="styleMenu.label"
                     >
@@ -88,59 +89,63 @@ const Header = ({ blok }) => {
                 cmsDataRef="stylePage.container"
             >
                 <XTag
-                    styleClass="flex justify-between items-center  py-6 md:justify-start md:space-x-10"
+                    styleClass="flex justify-between items-center py-6"
+                    useCss
                     cmsData={stylePage.main}
                     cmsDataRef="stylePage.main"
                 >
-                    
-                        <XTag
-                            styleClass="flex justify-start lg:w-0 lg:flex-1"
-                            cmsData={styleLogo.wrapper}
-                            cmsDataRef="styleLogo.wrapper"
-                        >
-                            <Link to={getTransLink(getSlug(contentLogo.logoMobile.link.cached_url), currentLanguage)}>
+
+                    <XTag
+                        styleClass="flex justify-start lg:w-0 lg:flex-1"
+                        cmsData={styleLogo.wrapper}
+                        cmsDataRef="styleLogo.wrapper"
+                    >
+                        <Link to={getTransLink(getSlug(contentLogo.logoMobile.link.cached_url), currentLanguage)}>
                             <XTag tag="img"
-                                styleClass="h-20 w-auto sm:h-10 sm:hidden"
+                                styleClass="h-7 w-auto sm:h-10 sm:hidden"
+                                useCss
                                 cmsData={styleLogo.desktopWrapper}
                                 cmsDataRef="styleLogo.desktopWrapper"
                                 src={contentLogo.logoMobile.asset.filename}
                                 alt={contentGlobal.siteTitle.content}
                             />
-                            </Link>
-                            <Link to={getTransLink(getSlug(contentLogo.logoDesktop.link.cached_url), currentLanguage)}>
+                        </Link>
+                        <Link to={getTransLink(getSlug(contentLogo.logoDesktop.link.cached_url), currentLanguage)}>
                             <XTag tag="img"
-                                styleClass="h-20 w-auto sm:h-10 hidden sm:block"
+                                styleClass="h-7 w-auto sm:h-10 hidden sm:block"
+                                useCss
                                 cmsData={styleLogo.mobileWrapper}
                                 cmsDataRef="styleLogo.mobileWrapper"
                                 src={contentLogo.logoDesktop.asset.filename}
                                 alt={contentGlobal.siteTitle.content}
                             />
-                            </Link>
-                        </XTag>
+                        </Link>
+                    </XTag>
 
-                        <XTag
-                            styleClass="-mr-2 -my-2 md:hidden"
-                            cmsData={styleMobileButton.wrapper}
-                            cmsDataRef="styleMobileButton.wrapper"
+                    <XTag
+                        styleClass="-mr-2 -my-2 md:hidden"
+                        cmsData={styleMobileButton.wrapper}
+                        cmsDataRef="styleMobileButton.wrapper"
+                    >
+                        <button
+                            type="button"
+                            onClick={() => setOpenMenu(true)}
+                            className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                            aria-expanded="false"
                         >
-                            <button
-                                type="button"
-                                onClick={() => setOpenMenu(true)}
-                                className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                                aria-expanded="false"
-                            >
-                                <span className="sr-only">Open menu</span>
-                                <XTag
-                                    tag={FiMenu}
-                                    styleClass="h-6 w-6"
-                                    cmsData={styleMobileButton.element}
-                                    cmsDataRef="styleMobileButton.element" />
-                            </button>
-                        </XTag>
-                    
+                            <span className="sr-only">Open menu</span>
+                            <XTag
+                                tag={FiMenu}
+                                styleClass="h-6 w-6"
+                                cmsData={styleMobileButton.element}
+                                cmsDataRef="styleMobileButton.element" />
+                        </button>
+                    </XTag>
+
                     <XTag
                         tag="nav"
-                        styleClass="hidden md:flex items-center justify-end md:flex-1 lg:w-0 space-x-8"
+                        useCss            
+                        styleClass="hidden md:flex items-center justify-end space-x-8"
                         cmsData={styleMenu.container}
                         cmsDataRef="styleMenu.container"
                     >
