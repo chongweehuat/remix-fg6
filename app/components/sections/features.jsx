@@ -13,7 +13,7 @@ const features = ({blok}) => {
             tag="section"
             styleClass="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
             cmsData={styleSection.wrapper}
-            dataRef="styleSection.wrapper"
+            cmsDataRef="styleSection.wrapper"
         >
             {blok.section.map((element,j) => {
                 element.styles=blok.styles;

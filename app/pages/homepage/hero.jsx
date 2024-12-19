@@ -10,7 +10,7 @@ const hero = ({ blok }) => {
             tag="section"
             styleClass="relative bg-cover bg-center"
             cmsData={styleSection.wrapper}
-            dataRef="styleSection.wrapper"
+            cmsDataRef="styleSection.wrapper"
             style={{
                 backgroundImage: `url(${contentSection.backgroundImage.asset.filename})`
             }}
@@ -24,7 +24,7 @@ const hero = ({ blok }) => {
             <XTag
                 styleClass="relative flex justify-center items-center min-h-screen px-4"
                 cmsData={styleSection.item}
-                dataRef="styleSection.item"
+                cmsDataRef="styleSection.item"
             >
                 <XTag
                     styleClass="bg-white bg-opacity-90 max-w-3xl w-full mx-4 lg:mx-auto px-8 py-12 lg:py-16 rounded-lg shadow-lg"

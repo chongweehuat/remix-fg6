@@ -91,6 +91,7 @@ const highlights = ({ blok }) => {
                         {items.slice(1).map((item, j) => {
                             return (
                                 <XTag
+                                    key={j}
                                     styleClass="flex bg-white shadow-md rounded-lg overflow-hidden"
                                     cmsData={styleSection.subPostContainer}
                                     cmsDataRef="styleSection.subPostContainer"

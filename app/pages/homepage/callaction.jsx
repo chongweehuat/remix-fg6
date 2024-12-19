@@ -10,7 +10,7 @@ const callaction = ({blok}) => {
             tag="section"
             styleClass="relative w-full bg-gradient-to-r from-blue-500 to-indigo-600 py-16"
             cmsData={styleSection.wrapper}
-            dataRef="styleSection.wrapper"
+            cmsDataRef="styleSection.wrapper"
         >
             <XTag
                 styleClass="absolute inset-0 bg-black opacity-30"
@@ -27,8 +27,8 @@ const callaction = ({blok}) => {
                     tag="a"
                     href={contentSection.contactus.link.cached_url}
                     styleClass="relative flex flex-col items-start p-8 bg-white bg-opacity-90 rounded-lg shadow-lg transition-transform transform hover:scale-105"
-                    data={styleSection.classLink}
-                    dataRef="styleSection.classLink"
+                    cmsData={styleSection.classLink}
+                    cmsDataRef="styleSection.classLink"
                 >
 
                     <XTag
