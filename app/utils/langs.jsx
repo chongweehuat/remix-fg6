@@ -2,7 +2,7 @@ import { useLocation } from "@remix-run/react";
 
 const CMSPATH = typeof window === "undefined" 
 ? process.env.CMSPATH || "finexusgroup"
-: window.env.CMSPATH|| "finexusgroup";
+: window.ENV.CMSPATH|| "finexusgroup";
 
 const languages = ["en-gb","ms-my","zh-cn","ta-my"]; // List of languages your app supports
 const storyblokLanguage = {

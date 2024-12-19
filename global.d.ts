@@ -2,7 +2,7 @@ export {};
 
 declare global {
   interface Window {
-    env: {
+    ENV: {
       CMSPATH: string;
       STORYBLOK_ACCESS_TOKEN: string;
     };

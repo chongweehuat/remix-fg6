@@ -32,8 +32,10 @@ const components = {
 
 const accessToken = typeof window === "undefined"
   ? process.env.STORYBLOK_ACCESS_TOKEN
-  : window.env.STORYBLOK_ACCESS_TOKEN
+  : window.ENV.STORYBLOK_ACCESS_TOKEN
 
+console.log("acessToken:",accessToken);
+  
 storyblokInit({
   accessToken, 
   use: [apiPlugin],
@@ -106,7 +108,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </XTag>
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.env = ${JSON.stringify(env)}`,
+            __html: `window.ENV = ${JSON.stringify(env)}`,
           }}
         />
       </body>

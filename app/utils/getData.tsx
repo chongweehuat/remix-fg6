@@ -2,7 +2,7 @@ import { getStoryblokApi } from "@storyblok/react";
 
 const CMSPATH = typeof window === "undefined" 
 ? process.env.CMSPATH || "finexusgroup"
-: window.env.CMSPATH|| "finexusgroup";
+: window.ENV.CMSPATH|| "finexusgroup";
 
 
 const getData = async (path: string, lang: string, allStories = false) => {
