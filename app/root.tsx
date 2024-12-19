@@ -9,7 +9,6 @@ import {
 import "./tailwind.css";
 import { getCurrentLanguage } from "./utils/langs";
 import { storyblokInit, apiPlugin, getStoryblokApi } from "@storyblok/react";
-import { isPreview } from "~/utils/isPreview";
 import getData from "~/utils/getData";
 import XTag from "./components/XTag";
 import Header from "./pages/Header";
@@ -31,11 +30,15 @@ const components = {
   feature: Feature,
 };
 
+const accessToken = typeof window === "undefined"
+  ? process.env.STORYBLOK_ACCESS_TOKEN
+  : window.env.STORYBLOK_ACCESS_TOKEN
+
 storyblokInit({
-  accessToken: process.env.STORYBLOK_ACCESS_TOKEN, // Using environment variable for access token
+  accessToken, 
   use: [apiPlugin],
   components,
-  bridge: isPreview(),
+  bridge: true,
 });
 
 export const loader = async ({ params, request }: any) => {
@@ -50,14 +53,17 @@ export const loader = async ({ params, request }: any) => {
       getData(`${CMSPATH}/footer`, sbLanguage),
     ]);
 
-    return { language, settings, header, footer };
+    return { env: {
+      STORYBLOK_ACCESS_TOKEN: process.env.STORYBLOK_ACCESS_TOKEN,
+      CMSPATH: process.env.CMSPATH,
+    },language, settings, header, footer };
   } catch (error) {
     throw new Response("Failed to load data", { status: 500 });
   }
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { language, settings, header, footer }: any = useLoaderData();
+  const { env,language, settings, header, footer }: any = useLoaderData();
 
   const setting = storyContent(settings, "global");
   const styleGlobal = storyStyle(settings, "global");
@@ -98,6 +104,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <Scripts />
           <Footer blok={{ footer }} />
         </XTag>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.env = ${JSON.stringify(env)}`,
+          }}
+        />
       </body>
     </html>
   );
