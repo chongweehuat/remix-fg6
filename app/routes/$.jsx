@@ -4,7 +4,16 @@ import { getPreviousAndNextBlogs } from "../utils/getData";
 import HomePage from "../pages/HomePage";
 import News from "../pages/News";
 import NewsBlog from "../pages/NewsBlog";
+import ContactUs from "../pages/ContactUs";
+import Career from "../pages/Career";
+import Accreditations from "../pages/Accreditations";
+import RegulatoryCompliance from "../pages/RegulatoryCompliance";
+import DataProcessor from "../pages/DataProcessor";
 import LanguageSelector from "../pages/LanguageSelector";
+import DigitalMoney from "../pages/DigitalMoney";
+import MyXaaS from "../pages/MyXaaS";
+import Arema from "../pages/Arema";
+import AboutUs from "../pages/AboutUs";
 import { getCurrentLanguage } from "../utils/langs";
 import { useSearchParams } from "@remix-run/react";
 
@@ -110,6 +119,33 @@ export default function Index() {
     if (slug === "news") {
       if (slugBlog) return <NewsBlog blok={{ data, settings }} />;
       else return <News blok={{ data, settings }} />;
+    }
+    if (slug === "career") {
+      return <Career blok={{ data, settings }} />
+    }
+    if (slug === "contactus") {
+      return <ContactUs blok={{ data, settings }} />
+    }
+    if(slug=== "accreditations"){
+      return <Accreditations blok={{data,settings}} />
+    }
+    if(slug==="regulatorycompliance"){
+      return <RegulatoryCompliance blok={{data,settings}} />
+    }
+    if(slug==="dataprocessor"){
+      return <DataProcessor blok={{data,settings}} />
+    }
+    if(slug==="digitalmoney"){
+      return <DigitalMoney blok={{data,settings}} />
+    }
+    if(slug==="myxaas"){
+      return <MyXaaS blok={{data,settings}} />
+    }
+    if(slug==="arema"){
+      return <Arema blok={{data,settings}} />
+    }
+    if(slug==="aboutus"){
+      return <AboutUs blok={{data,settings}} />
     }
     return <p>Page not found</p>;
   };
