@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
 import { storyData, storyContent, storyStyle } from "../utils/storyData";
 import XTag from "../components/XTag";
-import { Link } from "@remix-run/react";
+import { Link, NavLink } from "@remix-run/react";
 import { useCurrentLanguage, getTransLink, getSlug } from "../utils/langs";
 
 const Header = ({ blok }) => {
@@ -19,18 +19,28 @@ const Header = ({ blok }) => {
     const styleMobileButton = storyStyle(blok.header, "mobileButton");
 
     const renderMenu = (menuElement) => {
-
+        //console.log("menuElement:",menuElement)
         return (
             <div key={menuElement._uid} >
                 {menuElement.submenu.length == 0 && (
+                    <NavLink
+                    prefetch="intent"
+                    to={getTransLink(getSlug(menuElement.link.cached_url), currentLanguage)}
+                    className={({ isActive }) =>
+                        isActive
+                            ? "text-yellow-600 font-semibold border-b-2 border-yellow-600"
+                            : "text-gray-700 hover:text-yellow-600"
+                    }
+                >
                     <XTag
-                        styleClass="text-sm font-medium text-gray-700 hover:text-yellow-600 cursor-pointer flex items-center"
+                        styleClass="cursor-pointer flex items-center"
                         useCss
                         cmsData={styleMenu.label}
                         cmsDataRef="styleMenu.label"
                     >
                         {menuElement.label}
                     </XTag>
+                </NavLink>
                 )}
 
                 {/* Render submenu if it exists */}
@@ -54,14 +64,20 @@ const Header = ({ blok }) => {
                         </XTag>
                         <XTag
                             tag="ul"
-                            styleClass="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            styleClass="absolute left-0 top-[calc(100%+0.5rem)] bg-white w-48 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50 border border-gray-200"
+                            useCss
                             cmsData={styleMenu.subGroup}
                             cmsDataRef="styleMenu.subGroup"
                         >
-                            {menuElement.submenu.map((submenuItem) => {
+                            {menuElement.submenu.map((submenuItem, index) => {
                                 // console.log('submenuItem', submenuItem);
                                 return (
-                                    <li key={submenuItem._uid}>
+                                    <li 
+                                    key={submenuItem._uid}
+                                    className={`py-3 pl-4 pr-1 text-gray-700 hover:text-yellow-600 hover:bg-gray-100 ${
+                                        index !== 0 ? 'border-t border-gray-200' : ''
+                                    }`}
+                                    >
                                         {renderMenu(submenuItem)}
                                     </li>
                                 )
@@ -79,7 +95,8 @@ const Header = ({ blok }) => {
 
     return (
         <XTag
-            styleClass="relative bg-white border-b-2 border-gray-100"
+            styleClass="relative bg-white border-b-2 border-gray-100 overflow-visible"
+            useCss
             cmsData={stylePage.wrapper}
             cmsDataRef="stylePage.wrapper"
         >
@@ -89,7 +106,7 @@ const Header = ({ blok }) => {
                 cmsDataRef="stylePage.container"
             >
                 <XTag
-                    styleClass="flex justify-between items-center py-6"
+                    styleClass="flex justify-between items-center py-6 gap-8"
                     useCss
                     cmsData={stylePage.main}
                     cmsDataRef="stylePage.main"
@@ -97,6 +114,7 @@ const Header = ({ blok }) => {
 
                     <XTag
                         styleClass="flex justify-start lg:w-0 lg:flex-1"
+                        useCss
                         cmsData={styleLogo.wrapper}
                         cmsDataRef="styleLogo.wrapper"
                     >
