@@ -1,116 +1,299 @@
-import { Form } from "@remix-run/react";
+import React, { useState } from "react";
+import { sectionContent } from "../utils/storyData";
 
 const ContactUs = ({ blok }) => {
-  return (
-    <section className="bg-white py-12">
-      {/* Container */}
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Left Column: Contact Form */}
-          <div>
-            <h3 className="text-lg font-bold uppercase text-gray-700 mb-4">
-              Do Get In Touch With Us
-            </h3>
-            <h1 className="text-2xl font-semibold text-gray-800 mb-6">
-              We would be happy to assist you
-            </h1>
-            <Form method="post" className="space-y-4">
-              {/* Name */}
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                  Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
-                  required
-                />
-              </div>
+  const [category, setCategory] = useState("");
+  const [subjectMatter, setSubjectMatter] = useState("");
+  const [additionalOptions, setAdditionalOptions] = useState([]);
 
-              {/* Email */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
-                  required
-                />
-              </div>
+  // Parse content from Storyblok
+  const contentSection = sectionContent(blok.data.contents);
+  const contentFormLabel = sectionContent(contentSection.form_label.content);
+  const contentOffices = sectionContent(contentSection.offices.content);
+  const contentGoogleMap = contentSection.googlemap;
+  const contentFormOptions = contentSection.form_options.content;
 
-              {/* Contact Number */}
-              <div>
-                <label htmlFor="contact-number" className="block text-sm font-medium text-gray-700">
-                  Contact Number <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="tel"
-                  id="contact-number"
-                  name="contact-number"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
-                  required
-                />
-              </div>
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+    setSubjectMatter(""); // Reset subject matter when category changes
+    setAdditionalOptions([]); // Reset additional options
+  };
 
-              {/* Institution / Company Name */}
-              <div>
-                <label htmlFor="company" className="block text-sm font-medium text-gray-700">
-                  Institution / Company Name
-                </label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
-                />
-              </div>
+  const handleSubjectChange = (e) => {
+    const selectedCategory = contentFormOptions.find(
+      (option) => option.label === category
+    );
+    const selectedSubject = selectedCategory?.suboption.find(
+      (option) => option.label === e.target.value
+    );
 
-              {/* Message */}
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                  Message <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows="4"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
-                  placeholder="Type your message here..."
-                  required
-                ></textarea>
-              </div>
+    setSubjectMatter(e.target.value);
+    setAdditionalOptions(selectedSubject?.suboption || []); // Update additional options
+  };
 
-              {/* Submit Button */}
-              <div>
-                <button
-                  type="submit"
-                  className="w-full bg-yellow-600 text-white font-medium py-2 px-4 rounded-md shadow hover:bg-yellow-700 focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
-                >
-                  Send
-                </button>
-              </div>
-            </Form>
-          </div>
+  const renderCategoryOptions = () => {
+    return contentFormOptions.map((option) => (
+      <option key={option._uid} value={option.label}>
+        {option.label}
+      </option>
+    ));
+  };
 
-          {/* Right Column: Google Map */}
-          <div className="relative">
-            <iframe
-              loading="lazy"
-              src="//maps.google.com/maps?q=FINEXUS%20Campus&t=m&z=14&output=embed&iwloc=near"
-              title="FINEXUS Campus"
-              aria-label="FINEXUS Campus"
-              className="w-full h-96 border border-gray-300 rounded-md shadow-sm"
-            ></iframe>
-          </div>
+  const renderSubjectOptions = () => {
+    const selectedCategory = contentFormOptions.find(
+      (option) => option.label === category
+    );
+    if (!selectedCategory) return null;
+
+    return selectedCategory.suboption.map((subOption) => (
+      <option key={subOption._uid} value={subOption.label}>
+        {subOption.label}
+      </option>
+    ));
+  };
+
+  const renderAdditionalOptions = () => {
+    if (additionalOptions.length === 0) return null;
+
+    return (
+      <div className="mt-4">
+        <label className="block font-medium text-darkblue dark:text-white">
+          Find out about Finexus or AREMA in:
+        </label>
+        <div className="grid grid-cols-2 gap-2 mt-2">
+          {additionalOptions.map((option) => (
+            <label
+              key={option._uid}
+              className="flex items-center space-x-2 text-darkblue dark:text-white"
+            >
+              <input
+                type="checkbox"
+                name="checkbox[]"
+                value={option.label}
+                className="rounded text-yellow-500 focus:ring-yellow-500 dark:bg-gray-800 dark:border-gray-700"
+              />
+              <span>{option.label}</span>
+            </label>
+          ))}
         </div>
       </div>
-    </section>
+    );
+  };
+
+  const renderOffices = () =>
+    Object.keys(contentOffices).map((officeKey) => {
+      const office = contentOffices[officeKey];
+      const name = office.items.find((item) => item.name === "name")?.content;
+      const location =
+        office.items.find((item) => item.name === "location")?.content;
+      const address =
+        office.items.find((item) => item.name === "address")?.content;
+      const tel1 = office.items.find((item) => item.name === "tel1")?.content;
+      const tel2 = office.items.find((item) => item.name === "tel2")?.content;
+      const tel3 = office.items.find((item) => item.name === "tel3")?.content;
+      const wazeLink =
+        office.items.find((item) => item.name === "waze")?.link?.url || "#";
+      const googleMapLink =
+        office.items.find((item) => item.name === "google_map")?.link?.url ||
+        "#";
+
+      return (
+        <OfficeCard
+          key={officeKey}
+          title={name}
+          subtitle={location}
+          address={address}
+          phone1={tel1}
+          phone2={tel2}
+          phone3={tel3}
+          wazeLink={wazeLink}
+          googleMapLink={googleMapLink}
+        />
+      );
+    });
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Contact Form */}
+        <div>
+          <h3 className="text-lg font-bold text-darkblue dark:text-white">
+            {contentFormLabel.form_heading.content}
+          </h3>
+          <h1 className="text-2xl font-semibold mt-2 text-darkblue dark:text-white">
+            {contentFormLabel.form_sub_heading.content}
+          </h1>
+          <form className="mt-4 space-y-4">
+            <div className="flex flex-col">
+              <label
+                htmlFor="name"
+                className="font-medium text-darkblue dark:text-white"
+              >
+                {contentFormLabel.name.content}
+              </label>
+              <input
+                id="name"
+                type="text"
+                className="border border-gray-300 rounded-md p-2 bg-white text-darkblue dark:bg-gray-800 dark:text-white"
+                required
+              />
+            </div>
+            <div className="flex flex-col">
+              <label
+                htmlFor="email"
+                className="font-medium text-darkblue dark:text-white"
+              >
+                {contentFormLabel.email.content}
+              </label>
+              <input
+                id="email"
+                type="email"
+                className="border border-gray-300 rounded-md p-2 bg-white text-darkblue dark:bg-gray-800 dark:text-white"
+                required
+              />
+            </div>
+            <div className="flex flex-col">
+              <label
+                htmlFor="contactNumber"
+                className="font-medium text-darkblue dark:text-white"
+              >
+                {contentFormLabel.contact_number.content}
+              </label>
+              <input
+                id="contactNumber"
+                type="text"
+                className="border border-gray-300 rounded-md p-2 bg-white text-darkblue dark:bg-gray-800 dark:text-white"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label
+                htmlFor="category"
+                className="font-medium text-darkblue dark:text-white"
+              >
+                {contentFormLabel.category.content}
+              </label>
+              <select
+                id="category"
+                value={category}
+                onChange={handleCategoryChange}
+                className="border border-gray-300 rounded-md p-2 bg-white text-darkblue dark:bg-gray-800 dark:text-white"
+                required
+              >
+                <option value="">- Select -</option>
+                {renderCategoryOptions()}
+              </select>
+            </div>
+            {category && (
+              <div className="flex flex-col">
+                <label
+                  htmlFor="subjectMatter"
+                  className="font-medium text-darkblue dark:text-white"
+                >
+                  {contentFormLabel.subject.content}
+                </label>
+                <select
+                  id="subjectMatter"
+                  value={subjectMatter}
+                  onChange={handleSubjectChange}
+                  className="border border-gray-300 rounded-md p-2 bg-white text-darkblue dark:bg-gray-800 dark:text-white"
+                  required
+                >
+                  <option value="">- Select -</option>
+                  {renderSubjectOptions()}
+                </select>
+              </div>
+            )}
+            {renderAdditionalOptions()}
+            <div className="flex flex-col">
+              <label
+                htmlFor="message"
+                className="font-medium text-darkblue dark:text-white"
+              >
+                {contentFormLabel.message.content}
+              </label>
+              <textarea
+                id="message"
+                className="border border-gray-300 rounded-md p-2 bg-white text-darkblue dark:bg-gray-800 dark:text-white"
+                rows="4"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600"
+            >
+              {contentFormLabel.send.content}
+            </button>
+          </form>
+        </div>
+        {/* Google Map */}
+        <div className="map-container">
+          <iframe
+            src={contentGoogleMap.link.cached_url}
+            title={contentGoogleMap.content}
+            className="w-full h-[600px] rounded-md border border-gray-300 md:h-[500px] lg:h-[600px]"
+            allowFullScreen
+          ></iframe>
+        </div>
+      </section>
+      {/* Offices Section */}
+      <section className="mt-12 grid lg:grid-cols-3 md:grid-cols-2 gap-8">
+        {renderOffices()}
+      </section>
+    </div>
   );
-}
+};
+
+const OfficeCard = ({
+  title,
+  subtitle,
+  address,
+  phone1,
+  phone2,
+  phone3,
+  wazeLink,
+  googleMapLink,
+}) => (
+  <div className="p-4 border border-gray-200 rounded-lg bg-lightgray shadow-md">
+    <h3 className="text-lg font-bold text-darkblue uppercase">{title}</h3>
+    <h4 className="text-md font-semibold mt-1 text-yellow-500">{subtitle}</h4>
+    <ul className="mt-4 space-y-2">
+      <li className="flex items-start">
+        <i className="fas fa-building text-yellow-500 mr-2"></i>
+        <span>{address}</span>
+      </li>
+      {phone1 && (
+        <li className="flex items-center">
+          <i className="fas fa-phone-alt text-yellow-500 mr-2"></i>
+          {phone1}
+        </li>
+      )}
+      {phone2 && (
+        <li className="flex items-center">
+          <i className="fas fa-phone-alt text-yellow-500 mr-2"></i>
+          {phone2}
+        </li>
+      )}
+      <li className="flex space-x-4 mt-2">
+        <a
+          href={wazeLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-yellow-500 underline"
+        >
+          Waze
+        </a>
+        <a
+          href={googleMapLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-yellow-500 underline"
+        >
+          Google Maps
+        </a>
+      </li>
+    </ul>
+  </div>
+);
 
 export default ContactUs;

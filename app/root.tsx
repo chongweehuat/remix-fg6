@@ -108,6 +108,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
           href={setting?.favicon300?.asset?.filename || "/default-favicon-180.png"}
           sizes="180x180"
         />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+
         <Meta />
         <Links />
       </head>
