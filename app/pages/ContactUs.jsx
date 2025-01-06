@@ -2,9 +2,16 @@ import React, { useState } from "react";
 import { sectionContent } from "../utils/storyData";
 
 const ContactUs = ({ blok }) => {
-  const [category, setCategory] = useState("");
-  const [subjectMatter, setSubjectMatter] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    contactNumber: "",
+    category: "",
+    subjectMatter: "",
+    message: "",
+  });
   const [additionalOptions, setAdditionalOptions] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Parse content from Storyblok
   const contentSection = sectionContent(blok.data.contents);
@@ -13,24 +20,85 @@ const ContactUs = ({ blok }) => {
   const contentGoogleMap = contentSection.googlemap;
   const contentFormOptions = contentSection.form_options.content;
 
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleAdditionalOptions = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setAdditionalOptions([...additionalOptions, value]);
+    } else {
+      setAdditionalOptions(additionalOptions.filter((item) => item !== value));
+    }
+  };
+
   const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
-    setSubjectMatter(""); // Reset subject matter when category changes
-    setAdditionalOptions([]); // Reset additional options
+    setFormData({ ...formData, category: e.target.value, subjectMatter: "" });
+    setAdditionalOptions([]);
   };
 
   const handleSubjectChange = (e) => {
+    setFormData({ ...formData, subjectMatter: e.target.value });
     const selectedCategory = contentFormOptions.find(
-      (option) => option.label === category
+      (option) => option.label === formData.category
     );
     const selectedSubject = selectedCategory?.suboption.find(
       (option) => option.label === e.target.value
     );
-
-    setSubjectMatter(e.target.value);
-    setAdditionalOptions(selectedSubject?.suboption || []); // Update additional options
+    setAdditionalOptions(selectedSubject?.suboption || []);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+  
+    const payload = {
+      ...formData,
+      additionalOptions, // Serialize additional options
+    };
+  
+    try {
+      // Replace with your Google Cloud Function URL
+      const appUrl = "https://script.google.com/macros/s/AKfycbxSdflNbKi2781HKrN7zFoDGND8vTbEx8FzGyeYMDLw_ojm2EGVwUINYSHccEkoGtWw/exec";
+  
+      const response = await fetch(appUrl, {
+        redirect: "follow",
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const result = await response.json();
+      if (result.status === "success") {
+        alert("Form submitted successfully!");
+        setFormData({
+          name: "",
+          email: "",
+          contactNumber: "",
+          category: "",
+          subjectMatter: "",
+          message: "",
+        });
+        setAdditionalOptions([]);
+      } else {
+        alert("An error occurred while submitting the form. Please try again.");
+      }
+    } catch (error) {
+      alert("An error occurred while submitting the form. Please try again.");
+      console.error("Error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
   const renderCategoryOptions = () => {
     return contentFormOptions.map((option) => (
       <option key={option._uid} value={option.label}>
@@ -41,7 +109,7 @@ const ContactUs = ({ blok }) => {
 
   const renderSubjectOptions = () => {
     const selectedCategory = contentFormOptions.find(
-      (option) => option.label === category
+      (option) => option.label === formData.category
     );
     if (!selectedCategory) return null;
 
@@ -61,15 +129,16 @@ const ContactUs = ({ blok }) => {
           Find out about Finexus or AREMA in:
         </label>
         <div className="grid grid-cols-2 gap-2 mt-2">
-          {additionalOptions.map((option) => (
+          {additionalOptions.map((option,k) => (
             <label
-              key={option._uid}
+              key={k}
               className="flex items-center space-x-2 text-darkblue dark:text-white"
             >
               <input
                 type="checkbox"
                 name="checkbox[]"
                 value={option.label}
+                onChange={handleAdditionalOptions}
                 className="rounded text-yellow-500 focus:ring-yellow-500 dark:bg-gray-800 dark:border-gray-700"
               />
               <span>{option.label}</span>
@@ -123,7 +192,7 @@ const ContactUs = ({ blok }) => {
           <h1 className="text-2xl font-semibold mt-2 text-darkblue dark:text-white">
             {contentFormLabel.form_sub_heading.content}
           </h1>
-          <form className="mt-4 space-y-4">
+          <form onSubmit={handleSubmit} className="mt-4 space-y-4">
             <div className="flex flex-col">
               <label
                 htmlFor="name"
@@ -134,6 +203,8 @@ const ContactUs = ({ blok }) => {
               <input
                 id="name"
                 type="text"
+                value={formData.name}
+                onChange={handleInputChange}
                 className="border border-gray-300 rounded-md p-2 bg-white text-darkblue dark:bg-gray-800 dark:text-white"
                 required
               />
@@ -148,6 +219,8 @@ const ContactUs = ({ blok }) => {
               <input
                 id="email"
                 type="email"
+                value={formData.email}
+                onChange={handleInputChange}
                 className="border border-gray-300 rounded-md p-2 bg-white text-darkblue dark:bg-gray-800 dark:text-white"
                 required
               />
@@ -162,6 +235,8 @@ const ContactUs = ({ blok }) => {
               <input
                 id="contactNumber"
                 type="text"
+                value={formData.contactNumber}
+                onChange={handleInputChange}
                 className="border border-gray-300 rounded-md p-2 bg-white text-darkblue dark:bg-gray-800 dark:text-white"
               />
             </div>
@@ -174,7 +249,7 @@ const ContactUs = ({ blok }) => {
               </label>
               <select
                 id="category"
-                value={category}
+                value={formData.category}
                 onChange={handleCategoryChange}
                 className="border border-gray-300 rounded-md p-2 bg-white text-darkblue dark:bg-gray-800 dark:text-white"
                 required
@@ -183,7 +258,7 @@ const ContactUs = ({ blok }) => {
                 {renderCategoryOptions()}
               </select>
             </div>
-            {category && (
+            {formData.category && (
               <div className="flex flex-col">
                 <label
                   htmlFor="subjectMatter"
@@ -193,7 +268,7 @@ const ContactUs = ({ blok }) => {
                 </label>
                 <select
                   id="subjectMatter"
-                  value={subjectMatter}
+                  value={formData.subjectMatter}
                   onChange={handleSubjectChange}
                   className="border border-gray-300 rounded-md p-2 bg-white text-darkblue dark:bg-gray-800 dark:text-white"
                   required
@@ -213,6 +288,8 @@ const ContactUs = ({ blok }) => {
               </label>
               <textarea
                 id="message"
+                value={formData.message}
+                onChange={handleInputChange}
                 className="border border-gray-300 rounded-md p-2 bg-white text-darkblue dark:bg-gray-800 dark:text-white"
                 rows="4"
                 required
@@ -220,9 +297,14 @@ const ContactUs = ({ blok }) => {
             </div>
             <button
               type="submit"
-              className="bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600"
+              className={`bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 ${
+                isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={isSubmitting}
             >
-              {contentFormLabel.send.content}
+              {isSubmitting
+                ? "Submitting..."
+                : contentFormLabel.send.content}
             </button>
           </form>
         </div>
