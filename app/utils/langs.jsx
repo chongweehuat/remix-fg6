@@ -8,14 +8,14 @@ const CMSPATH = typeof window === "undefined"
 
 const languages = ["en-gb","ms-my","zh-cn","ta-my"]; // List of languages your app supports
 const storyblokLanguage = {
-  "en": "en",
-  "ms": "ms",
-  "zh": "zh",
-  "ta": "ta",   
-  "en-gb": "en", 
-  "ms-my": "ms", 
+  "en": "en-gb",
+  "ms": "ms-my",
+  "zh": "zh-cn",
+  "ta": "ta-my",   
+  "en-gb": "en-gb", 
+  "ms-my": "ms-my", 
   "zh-cn": "zh-cn",
-  "ta-my": "ta",
+  "ta-my": "ta-my",
 }
 
 const useCurrentLanguage = () => {

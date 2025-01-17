@@ -4,6 +4,10 @@ const CMSPATH = typeof window === "undefined"
 ? process.env.CMSPATH || "finexusgroup"
 : window.ENV.CMSPATH|| "finexusgroup";
 
+const CMSDATA = (typeof window === "undefined" 
+? process.env.CMSDATA 
+: window.ENV.CMSDATA) as "draft" | "published" || "draft";
+
 
 const getData = async (path: string, lang: string, allStories = false) => {
   try {
@@ -12,7 +16,7 @@ const getData = async (path: string, lang: string, allStories = false) => {
     if (allStories) {
       // Fetch stories for a specific year
       const { data } = await storyblokApi.get("cdn/stories", {
-        version: "draft", // Use draft version for preview
+        version: CMSDATA, // Use draft version for preview
         starts_with: path, // Fetch stories under the folder path
         resolve_relations: "default",
         language: lang,
@@ -27,7 +31,7 @@ const getData = async (path: string, lang: string, allStories = false) => {
     } else {
       // Fetch a specific story by its path
       const { data } = await storyblokApi.get(`cdn/stories/${path}`, {
-        version: "draft", // Use draft version for preview
+        version: CMSDATA, // Use draft version for preview
         resolve_relations: "default",
         language: lang,
       });

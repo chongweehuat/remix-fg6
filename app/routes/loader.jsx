@@ -11,6 +11,7 @@ export const loader = async ({ params, request }) => {
   let url = new URL(request.url);
   let pathParts = url.pathname.split("/");
   const { language, sbLanguage } = getCurrentLanguage(request);
+  console.log("Language:", language, "Storyblok Language:", sbLanguage);
 
   // If the language is not one of the supported languages, it's 'en' and the first part of the URL is part of the slug
   pathParts = pathParts.filter((part) => part !== ""); // Remove empty strings
