@@ -10,6 +10,7 @@
     "startfg6": "PORT=3672 STORYBLOK_ACCESS_TOKEN=H21xOvhGjQHp5kJXVOUsbwtt CMSDATA=published CMSPATH=finexusgroup remix-serve ./build/server/index.js",
     "draft": "STORYBLOK_ACCESS_TOKEN=9pCgOUNA8hs00g1hKG8V9wtt CMSDATA=draft CMSPATH=finexusgroup remix-serve ./build/server/index.js",
     "published": "STORYBLOK_ACCESS_TOKEN=H21xOvhGjQHp5kJXVOUsbwtt CMSDATA=published CMSPATH=finexusgroup remix-serve ./build/server/index.js",
+    "start": "STORYBLOK_ACCESS_TOKEN=9pCgOUNA8hs00g1hKG8V9wtt CMSDATA=draft CMSPATH=finexusgroup remix-serve ./build/server/index.js",
     "typecheck": "tsc"
   },
   "dependencies": {
